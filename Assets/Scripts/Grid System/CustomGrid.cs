@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class CustomGrid {
+public class CustomGrid<T> {
     private int width;
     private int height;
-    private int[,] grid;
+    private T[,] grid;
     private float cellSize;
     private TextMesh[,] textMesh;
     private Vector3 originPosition;
@@ -19,13 +19,13 @@ public class CustomGrid {
         this.cellSize = cellSize;
         this.originPosition = originPosition;
 
-        grid = new int[width, height];
+        grid = new T[width, height];
         textMesh = new TextMesh[width, height];
         for (int x = 0; x < grid.GetLength(0); x++)
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                textMesh[x, y] = UtilsClass.CreateWorldText(grid[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * .5f, 5, Color.white);
+                //textMesh[x, y] = UtilsClass.CreateWorldText(grid[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * .5f, 5, Color.white);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
             }
@@ -38,12 +38,18 @@ public class CustomGrid {
     {
         return new Vector3(x,y) * cellSize +originPosition;
     }
+    public Vector3 GetMiddleWorldPosition(int x, int y)
+    {
+        float xOffset = (0.5f + x) * cellSize;
+        float yOffset = (0.5f + y) * cellSize;
+        return new Vector3(xOffset, yOffset, 0) + originPosition;
+    }
     public void GetXY(Vector3 worldPosition, out int x, out int y)
     {
-        x = Mathf.FloorToInt((worldPosition.x-originPosition.x)/cellSize);
-        y = Mathf.FloorToInt((worldPosition.y-originPosition.y) / cellSize);
+        x = Mathf.FloorToInt((worldPosition-originPosition).x/cellSize);
+        y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
     }
-    public void SetValue(int x,int y, int value)
+    public void SetValue(int x,int y, T value)
     {
         if(x>=0 && y>=0 && x<width && y < height)
         {
@@ -51,13 +57,17 @@ public class CustomGrid {
             textMesh[x,y].text = grid[x,y].ToString();
         }
     }
-    public void SetValue(Vector3 worldPosition, int value)
+    public bool Buildable(int x, int y)
+    {
+        return x >= 0 && y >= 0 && x < width && y < height;
+    }
+    public void SetValue(Vector3 worldPosition, T value)
     {
         int x, y;
         GetXY(worldPosition, out x, out y);
         SetValue(x, y, value);
     }
-    public int GetValue(int x, int y)
+    public T GetValue(int x, int y)
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
         {
@@ -65,10 +75,10 @@ public class CustomGrid {
         }
         else
         {
-            return 0;
+            return default(T);
         }
     }
-    public int GetValue(Vector3 worldPosition)
+    public T GetValue(Vector3 worldPosition)
     {
         int x, y;
         GetXY(worldPosition, out x, out y);
