@@ -7,6 +7,12 @@ public class GameplayScene : MonoBehaviour
     private InterractableObject _currentInterractedObject;
     public static event System.Action<InterractableObject> OnHovering;
     [SerializeField] private LayerMask interractedLayer;
+    private CustomGrid _grid;
+
+    private void Start()
+    {
+        _grid = new CustomGrid(4, 5, 3, new Vector3(-10,-10,0));
+    }
     // Update is called once per frame
     void Update()
     {
@@ -37,14 +43,21 @@ public class GameplayScene : MonoBehaviour
     }
     void OnClicked()
     {
+        Vector3 MousePositionVector3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
+            _grid.SetValue(MousePositionVector3, 12);
             Debug.Log(_currentInterractedObject != null);
             Debug.Log(_currentInterractedObject);
             if(_currentInterractedObject != null)
             {
                 _currentInterractedObject.Interracted();
             }
+
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log(_grid.GetValue(MousePositionVector3));
         }
     }
     public void SetCurrentInterractableObject(InterractableObject _InterractableObject)
