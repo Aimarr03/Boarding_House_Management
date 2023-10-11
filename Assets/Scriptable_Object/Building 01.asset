@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8724bda087e0fa845a5e8fcfa6a6564a, type: 3}
   m_Name: Building 01
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  height: 0
-  width: 0
+  prefab: {fileID: 3404861093211698768, guid: 9fd95e924cf27e546b007b3d278251fb, type: 3}
+  height: 1
+  width: 3

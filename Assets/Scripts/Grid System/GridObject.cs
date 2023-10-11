@@ -17,6 +17,7 @@ public class GridObject
     }
     public bool IsBuildable()
     {
+        Debug.Log(building == null);
         return building == null;
     }
     public override string ToString()

@@ -12,7 +12,7 @@ public class GameplayScene : MonoBehaviour
 
     private void Start()
     {
-        _grid = new CustomGrid<GridObject>(9, 12, 3, new Vector3(-20,-30,0));
+        _grid = new CustomGrid<GridObject>(9, 12, 3, new Vector3(-20,-30,0), () => new GridObject());
     }
     // Update is called once per frame
     void Update()
@@ -48,9 +48,32 @@ public class GameplayScene : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             _grid.GetXY(MousePositionVector3, out int x, out int y);
-            if(_grid.Buildable(x, y))
+
+            List<Vector2Int> ObjectSize = _buildingSO.GetObjectSize(new Vector2Int(x,y));
+            bool canBuild = true;
+            foreach (Vector2Int currentGrid in ObjectSize)
             {
-                Instantiate(_buildingSO.prefab, _grid.GetMiddleWorldPosition(x, y), Quaternion.identity);
+                /*
+                GridObject currentGridObject = _grid.GetValue(currentGrid.x, currentGrid.y);
+                if (currentGridObject == null) break;
+                if (!_grid.GetValue(currentGrid.x, currentGrid.y).IsBuildable())
+                {
+                    canBuild = false; 
+                    break;
+                }*/
+            }
+
+            if (_grid.Buildable(x, y) && canBuild)
+            {
+                Transform buildingInstantiated = Instantiate(_buildingSO.prefab, _grid.GetMiddleWorldPosition(x, y), Quaternion.identity);
+                /*
+                foreach(Vector2Int currentGrid in  ObjectSize)
+                {
+                    GridObject gridObject = _grid.GetValue(currentGrid.x, currentGrid.y);
+                    if (gridObject == null) break;
+                    gridObject.SetBuilding(buildingInstantiated);
+                } */   
+                _grid.GetValue(x, y).SetBuilding(buildingInstantiated);
             }
             Debug.Log(_currentInterractedObject != null);
             Debug.Log(_currentInterractedObject);

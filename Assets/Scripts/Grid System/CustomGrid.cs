@@ -1,10 +1,11 @@
 using CodeMonkey.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class CustomGrid<T> {
+public class CustomGrid<T>{
     private int width;
     private int height;
     private T[,] grid;
@@ -12,7 +13,7 @@ public class CustomGrid<T> {
     private TextMesh[,] textMesh;
     private Vector3 originPosition;
 
-    public CustomGrid(int width, int height, float cellSize, Vector3 originPosition)
+    public CustomGrid(int width, int height, float cellSize, Vector3 originPosition, Func<T> CreateInstance)
     {
         this.width = width;
         this.height = height;
@@ -25,6 +26,7 @@ public class CustomGrid<T> {
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
+                grid[x,y] = CreateInstance();
                 //textMesh[x, y] = UtilsClass.CreateWorldText(grid[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * .5f, 5, Color.white);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
@@ -54,7 +56,7 @@ public class CustomGrid<T> {
         if(x>=0 && y>=0 && x<width && y < height)
         {
             grid[x,y] = value;
-            textMesh[x,y].text = grid[x,y].ToString();
+            //textMesh[x,y].text = grid[x,y].ToString();
         }
     }
     public bool Buildable(int x, int y)

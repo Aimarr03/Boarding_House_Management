@@ -833,6 +833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709a7014608031d44bc99a3a77e94f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buildingSO: {fileID: 11400000, guid: 2c9e1d7e084987844849ad71a6012a0f, type: 2}
   interractedLayer:
     serializedVersion: 2
     m_Bits: 64
