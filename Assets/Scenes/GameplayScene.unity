@@ -405,6 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canInterract: 1
   InterractedIndicator: {fileID: 1515340856}
+  _durationCleaning: 5
 --- !u!4 &244508079
 Transform:
   m_ObjectHideFlags: 0
@@ -689,7 +690,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 541972360}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 868907779}
+        m_TargetAssemblyTypeName: GameplayScene, Assembly-CSharp
+        m_MethodName: ChangeStateToBuilding
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &541972360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,6 +846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709a7014608031d44bc99a3a77e94f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   _buildingSO: {fileID: 11400000, guid: 2c9e1d7e084987844849ad71a6012a0f, type: 2}
   interractedLayer:
     serializedVersion: 2
