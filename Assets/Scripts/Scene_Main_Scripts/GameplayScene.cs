@@ -9,9 +9,11 @@ public class GameplayScene : MonoBehaviour
     public static event System.Action<InterractableObject> OnHovering;
     [SerializeField] private LayerMask interractedLayer;
     private CustomGrid<GridObject> _grid;
+    private bool interacting;
 
     private void Start()
     {
+        interacting = false;
         _grid = new CustomGrid<GridObject>(9, 12, 3, new Vector3(-20,-30,0), () => new GridObject());
     }
     // Update is called once per frame
@@ -75,13 +77,26 @@ public class GameplayScene : MonoBehaviour
                 } */   
                 _grid.GetValue(x, y).SetBuilding(buildingInstantiated);
             }
-            Debug.Log(_currentInterractedObject != null);
-            Debug.Log(_currentInterractedObject);
+            //Debug.Log(_currentInterractedObject != null);
+            //Debug.Log(_currentInterractedObject);
             if(_currentInterractedObject != null)
             {
+                interacting = true;
                 _currentInterractedObject.Interracted();
             }
-
+        }
+        if (Input.GetMouseButton(0) && interacting)
+        {
+            _currentInterractedObject.HoldInterraction();
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            if(_currentInterractedObject is Cleaning)
+            {
+                Cleaning CurrentInteractedObject = _currentInterractedObject as Cleaning;
+                CurrentInteractedObject.ResetDuration();
+            }
+            interacting = false;
         }
         if (Input.GetMouseButtonDown(1))
         {

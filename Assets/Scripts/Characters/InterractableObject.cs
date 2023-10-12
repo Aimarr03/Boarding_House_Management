@@ -23,6 +23,10 @@ public class InterractableObject : MonoBehaviour, IInteractable
             Debug.Log("Cannot Interracted!");
         }
     }
+    public virtual void HoldInterraction()
+    {
+
+    }
 
     public virtual void OnHoverEnter()
     {
