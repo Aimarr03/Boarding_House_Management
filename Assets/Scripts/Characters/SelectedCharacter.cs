@@ -7,7 +7,7 @@ public class SelectedCharacter : MonoBehaviour
     [SerializeField] InterractableObject interractableObject;
     public void Awake()
     {
-        GameplayScene.OnHovering += GameplayScene_OnHovering;
+        NormalState.OnHovering += GameplayScene_OnHovering;
     }
 
     private void GameplayScene_OnHovering(InterractableObject currentInterractedObject)

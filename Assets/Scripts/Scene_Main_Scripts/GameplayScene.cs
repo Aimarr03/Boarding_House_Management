@@ -5,12 +5,6 @@ using UnityEngine.Rendering;
 
 public class GameplayScene : MonoBehaviour
 {
-    /*
-    private Gameplay_StateMachine _StateMachine;
-    private Building_Gameplay_State _BuildingState;
-    private Normal_Gameplay_State _NormalState;
-    private Dialogue_Gameplay_State _DialogueState;
-    */
     public enum State
     {
         Normal,
@@ -25,43 +19,44 @@ public class GameplayScene : MonoBehaviour
     [SerializeField] private LayerMask interractedLayer;
     private CustomGrid<GridObject> _grid;
     private bool interacting;
+    public static GameplayScene _gameplayManager;
 
     public void Awake()
     {
-        /*
-        _StateMachine = new Gameplay_StateMachine();
-        _NormalState = new Normal_Gameplay_State(this, _StateMachine);
-        _BuildingState = new Building_Gameplay_State(this, _StateMachine);
-        _DialogueState = new Dialogue_Gameplay_State(this, _StateMachine);
-        _StateMachine.Initialize(_NormalState);
-        */
+        if (_gameplayManager != null) return;
+        _gameplayManager = this;
     }
 
     private void Start()
     {
 
         interacting = false;
-        _grid = new CustomGrid<GridObject>(9, 12, 3, new Vector3(-20, -30, 0), () => new GridObject());
+        _grid = new CustomGrid<GridObject>(3,5, 9,3, new Vector3(-15, -5, 0), () => new GridObject());
 
     }
     // Update is called once per frame
     void Update()
     {
-        //_StateMachine.GetState().Hovering();
-        //_StateMachine.GetState().OnClicked();
-        Hovering();
-        OnClicked();
+        switch (currentState)
+        {
+            case State.Normal:
+                HoveringNormal();
+                OnclickedNormal();
+                break;
+            case State.Building:
+                OnClickedBuild();
+                break;
+            case State.Dialogue:
+                break;
+        }
     }
-    public void ChangeStateToBuilding()
+    #region Normal Mode
+    void SetCurrentInterractableObject(InterractableObject _InterractableObject)
     {
-        //_StateMachine.ChangeState(_BuildingState);
+        _currentInterractedObject = _InterractableObject;
+        OnHovering?.Invoke(_currentInterractedObject);
     }
-    public Transform CustomInstantiate(Transform input, Vector3 position, Quaternion quaternion)
-    {
-        return Instantiate(input, position, quaternion);
-    }
-
-    public void Hovering()
+    public void HoveringNormal()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hitInfo = Physics2D.Raycast(mousePosition, Vector2.zero, 100f, interractedLayer);
@@ -81,9 +76,34 @@ public class GameplayScene : MonoBehaviour
             else SetCurrentInterractableObject(null);
         }
         else SetCurrentInterractableObject(null);
-
     }
-    public void OnClicked()
+    public void OnclickedNormal()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (_currentInterractedObject != null)
+            {
+                interacting = true;
+                _currentInterractedObject.Interracted();
+            }
+        }
+        if (Input.GetMouseButton(0) && interacting && _currentInterractedObject != null)
+        {
+            _currentInterractedObject.HoldInterraction();
+        }
+        if (Input.GetMouseButtonUp(0) && _currentInterractedObject != null)
+        {
+            if (_currentInterractedObject is Cleaning)
+            {
+                Cleaning CurrentInteractedObject = _currentInterractedObject as Cleaning;
+                CurrentInteractedObject.ResetDuration();
+            }
+            interacting = false;
+        }
+    }
+    #endregion
+    #region Build Mode
+    public void OnClickedBuild()
     {
         Vector3 MousePositionVector3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
@@ -116,35 +136,18 @@ public class GameplayScene : MonoBehaviour
                 }
                 _grid.GetValue(x, y).SetBuilding(buildingInstantiated);
             }
-            //Debug.Log(_currentInterractedObject != null);
-            //Debug.Log(_currentInterractedObject);
-            if (_currentInterractedObject != null)
-            {
-                interacting = true;
-                _currentInterractedObject.Interracted();
-            }
-        }
-        if (Input.GetMouseButton(0) && interacting)
-        {
-            _currentInterractedObject.HoldInterraction();
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (_currentInterractedObject is Cleaning)
-            {
-                Cleaning CurrentInteractedObject = _currentInterractedObject as Cleaning;
-                CurrentInteractedObject.ResetDuration();
-            }
-            interacting = false;
         }
         if (Input.GetMouseButtonDown(1))
         {
             Debug.Log(_grid.GetValue(MousePositionVector3));
         }
     }
-    void SetCurrentInterractableObject(InterractableObject _InterractableObject)
+    #endregion
+    public void SetState(int input)
     {
-        _currentInterractedObject = _InterractableObject;
-        OnHovering?.Invoke(_currentInterractedObject);
+        if (input == 0) currentState = State.Normal;
+        if(input == 1) currentState = State.Building;
+        if(input ==2) currentState = State.Dialogue;
     }
+    
 }
