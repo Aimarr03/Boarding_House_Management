@@ -5,9 +5,9 @@ using UnityEngine;
 public class SelectedCharacter : MonoBehaviour
 {
     [SerializeField] InterractableObject interractableObject;
-    public void Awake()
+    public void Start()
     {
-        NormalState.OnHovering += GameplayScene_OnHovering;
+        NormalState.instance.OnHovering += GameplayScene_OnHovering;
     }
 
     private void GameplayScene_OnHovering(InterractableObject currentInterractedObject)

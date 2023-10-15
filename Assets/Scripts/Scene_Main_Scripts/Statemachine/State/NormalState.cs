@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class NormalState : StateDefault
 {
+    public static NormalState instance;
     private InterractableObject _currentInterractedObject;
-    public static event System.Action<InterractableObject> OnHovering;
+    public event System.Action<InterractableObject> OnHovering;
     [SerializeField] private LayerMask interractedLayer;
     private bool interacting;
     public void Awake()
     {
+        if (instance != null) return;
+        instance = this;
         Enabled = true;
     }
     public override void EnterState()
@@ -21,6 +24,7 @@ public class NormalState : StateDefault
     public override void ExitState()
     {
         base.ExitState();
+        Enabled = false;
     }
     public void Update()
     {
