@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class BuildingState : StateDefault
 {
-    [SerializeField] public BuildingSO _buildingSO;
+    public static BuildingState instance;
+
+    [SerializeField] private BuildingSO _buildingSO;
     [SerializeField] private LayerMask interractedLayer;
     private CustomGrid<GridObject> _grid;
+
+    public void Awake()
+    {
+        if (instance != null) return; 
+        instance = this;
+    }
     public void Start()
     {
         _grid = new CustomGrid<GridObject>(3, 5, 9, 3, new Vector3(-15, -5, 0), () => new GridObject());
@@ -32,6 +40,10 @@ public class BuildingState : StateDefault
 
     public override void OnClick()
     {
+        if(_buildingSO == null)
+        {
+            return;
+        }
         base.OnClick();
         Vector3 MousePositionVector3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
@@ -73,7 +85,10 @@ public class BuildingState : StateDefault
             Debug.Log(_grid.GetValue(MousePositionVector3));
         }
     }
-
+    public void SetBuildingSO(BuildingSO buildingSO)
+    {
+        this._buildingSO = buildingSO;
+    }
     public override void Hovering()
     {
         base.Hovering();
