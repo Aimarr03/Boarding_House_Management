@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BuildingSO : ScriptableObject
 {
     [Header("Building Characteristics")]
+    public string roomName;
     public Transform prefab;
     public List<Sprite> roomType;
     public int height;
