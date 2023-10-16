@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(menuName ="Create new Building SO", fileName ="Building 01")]
 public class BuildingSO : ScriptableObject
 {
+    [Header("Building Characteristics")]
     public Transform prefab;
-    [Header("Building Size")]
+    public List<Sprite> roomType;
     public int height;
     public int width;
+    [Header("Economy Characteristics")]
+    public int costPurchase;
+    public int baseRevenue;
+    public int baseTax;
 
     public List<Vector2Int> GetObjectSize(Vector2Int offset)
     {

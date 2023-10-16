@@ -19,6 +19,7 @@ public class DialogueState : StateDefault
     {
         if (instance != null) return;
         instance = this;
+        DialogueUI.gameObject.SetActive(false);
     }
     public void Update()
     {
@@ -50,6 +51,7 @@ public class DialogueState : StateDefault
             }
             else
             {
+                StopAllCoroutines();
                 dialogueContent.text = currentConversation[conversationIndex].dialogue;
             }
         }
@@ -64,6 +66,7 @@ public class DialogueState : StateDefault
         currentDialogue = dialogue;
         currentCharacter = characterTalking;
         currentConversation = currentDialogue.Conversation;
+        DialogueUI.gameObject.SetActive(true);
         dialogueContent.text = "";
         conversationIndex = 0;
         EnterState();

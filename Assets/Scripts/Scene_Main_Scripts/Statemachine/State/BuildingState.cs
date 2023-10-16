@@ -45,6 +45,7 @@ public class BuildingState : StateDefault
             {
 
                 GridObject currentGridObject = _grid.GetValue(currentGrid.x, currentGrid.y);
+                //Check if the grid is offset from the maximum or minimmun on the x or y axis
                 if (currentGridObject == null) break;
                 if (!_grid.GetValue(currentGrid.x, currentGrid.y).IsBuildable())
                 {
@@ -56,9 +57,11 @@ public class BuildingState : StateDefault
             if (_grid.Buildable(x, y) && canBuild)
             {
                 Transform buildingInstantiated = Instantiate(_buildingSO.prefab, _grid.GetMiddleWorldPosition(x, y), Quaternion.identity);
+                buildingInstantiated.GetComponent<SpriteRenderer>().sprite = _buildingSO.roomType[x];
                 foreach (Vector2Int currentGrid in ObjectSize)
                 {
                     GridObject gridObject = _grid.GetValue(currentGrid.x, currentGrid.y);
+                    //Check if the grid is offset from the maximum or minimmun on the x or y axis
                     if (gridObject == null) break;
                     gridObject.SetBuilding(buildingInstantiated);
                 }

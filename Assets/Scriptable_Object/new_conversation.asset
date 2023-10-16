@@ -13,5 +13,21 @@ MonoBehaviour:
   m_Name: new_conversation
   m_EditorClassIdentifier: 
   characters_Involved: []
-  ConversationDone: 0
-  Conversation: []
+  ConversationDone: 1
+  Conversation:
+  - name: 
+    expression: 
+    dialogue: Halo ini Aimar
+    position: 0
+  - name: 
+    expression: 
+    dialogue: Aku sedang mencoba membuat teknis
+    position: 0
+  - name: 
+    expression: 
+    dialogue: Ini masih testing
+    position: 0
+  - name: 
+    expression: 
+    dialogue: Aku enggak tahu ini bakal bisa atau enggak
+    position: 0
