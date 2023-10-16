@@ -16,7 +16,7 @@ public class BuildingMenu : MonoBehaviour
         foreach(BuildingSO building in buildingListSO.buildings)
         {
             Transform RoomUI = Instantiate(RoomBuildingUIFormat, RoomBuildingContainer);
-            RoomBuilding currentRoomBuilding = RoomUI.GetComponent<RoomBuilding>();
+            RoomBuildingUI currentRoomBuilding = RoomUI.GetComponent<RoomBuildingUI>();
             currentRoomBuilding.SetBuildingSO(building);
             RoomUI.gameObject.SetActive(true);
         }

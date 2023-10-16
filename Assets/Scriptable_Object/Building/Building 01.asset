@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8724bda087e0fa845a5e8fcfa6a6564a, type: 3}
   m_Name: Building 01
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3404861093211698768, guid: 9fd95e924cf27e546b007b3d278251fb, type: 3}
+  roomName: Room 01
+  prefab: {fileID: 6197810624324220024, guid: c1bb3f417a55d8e44a1ba74995df617c, type: 3}
+  roomType:
+  - {fileID: 21300000, guid: 9937e5635068d6442bea1a09f58fd1c3, type: 3}
+  - {fileID: 21300000, guid: 750344b088a0ef94b9e91c201ab28351, type: 3}
+  - {fileID: 21300000, guid: d3f8d6b5be25ed942b4bdd929b941905, type: 3}
   height: 1
   width: 1
+  costPurchase: 150
+  baseRevenue: 50
+  baseTax: 40

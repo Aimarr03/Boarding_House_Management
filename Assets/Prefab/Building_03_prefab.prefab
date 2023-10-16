@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1914999887682511046, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
       propertyPath: m_Name
-      value: Base_Building
+      value: Building_03_prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3361505445283534679, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
       propertyPath: m_LocalPosition.x
@@ -55,5 +55,26 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1914999887682511046, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7909045461483251593}
   m_SourcePrefab: {fileID: 100100000, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
+--- !u!1 &8613591587869366925 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1914999887682511046, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
+  m_PrefabInstance: {fileID: 7861857413409126987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7909045461483251593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8613591587869366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e103e7ba89ff8543b866410d42cd39a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingSO: {fileID: 11400000, guid: 5c82b0aa53345fb44b3673a7dd6bed31, type: 2}

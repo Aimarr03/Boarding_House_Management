@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6a6bb8605514a439b39ccca2065f57, type: 3}
   m_Name: Room Building List
   m_EditorClassIdentifier: 
-  buildings: []
+  buildings:
+  - {fileID: 11400000, guid: 2c9e1d7e084987844849ad71a6012a0f, type: 2}
+  - {fileID: 11400000, guid: ed095a97b648e6f41a04a9db0ecfef65, type: 2}
+  - {fileID: 11400000, guid: 5c82b0aa53345fb44b3673a7dd6bed31, type: 2}

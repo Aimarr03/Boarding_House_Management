@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RoomBuilding : MonoBehaviour
+public class RoomBuildingUI : MonoBehaviour
 {
     [SerializeField] private Image backgroundImage;
     [SerializeField] private TextMeshProUGUI roomName;

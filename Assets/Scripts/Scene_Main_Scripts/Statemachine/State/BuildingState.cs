@@ -9,7 +9,7 @@ public class BuildingState : StateDefault
     [SerializeField] private BuildingSO _buildingSO;
     [SerializeField] private LayerMask interractedLayer;
     private CustomGrid<GridObject> _grid;
-
+    int room_index = 0;
     public void Awake()
     {
         if (instance != null) return; 
@@ -17,7 +17,7 @@ public class BuildingState : StateDefault
     }
     public void Start()
     {
-        _grid = new CustomGrid<GridObject>(3, 5, 9, 3, new Vector3(-15, -5, 0), () => new GridObject());
+        _grid = new CustomGrid<GridObject>(3, 5, 6, 3, new Vector3(-15, -5, 0), () => new GridObject());
     }
     public override void EnterState()
     {
@@ -66,9 +66,15 @@ public class BuildingState : StateDefault
 
                 }
             }
-            if (_grid.Buildable(x, y) && canBuild)
+            Debug.Log(EconomyManager.instance.CheckMoney(_buildingSO.costPurchase));
+            if (_grid.Buildable(x, y) && canBuild && EconomyManager.instance.CheckMoney(_buildingSO.costPurchase))
             {
+                string roomIndexString = "room_" + room_index;
+                EconomyManager.instance.UseMoney(_buildingSO.costPurchase);
                 Transform buildingInstantiated = Instantiate(_buildingSO.prefab, _grid.GetMiddleWorldPosition(x, y), Quaternion.identity);
+                buildingInstantiated.TryGetComponent<Room>(out Room currentRoom);
+                currentRoom.SetRoomIndex(roomIndexString);
+                EconomyManager.instance.roomObtain.Add(roomIndexString, currentRoom);
                 buildingInstantiated.GetComponent<SpriteRenderer>().sprite = _buildingSO.roomType[x];
                 foreach (Vector2Int currentGrid in ObjectSize)
                 {
@@ -78,6 +84,7 @@ public class BuildingState : StateDefault
                     gridObject.SetBuilding(buildingInstantiated);
                 }
                 _grid.GetValue(x, y).SetBuilding(buildingInstantiated);
+                room_index++;
             }
         }
         if (Input.GetMouseButtonDown(1))
