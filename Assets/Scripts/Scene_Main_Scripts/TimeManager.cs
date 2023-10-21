@@ -18,6 +18,7 @@ public class TimeManager : MonoBehaviour
         month = 1;
         date = 1;
         currentTime = maxTime;
+        NextDay();
     }
 
     // Update is called once per frame

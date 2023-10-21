@@ -56,5 +56,10 @@ public class EconomyManager : MonoBehaviour
         Currency += (int)revenue;
         UpdateCoinDisplay();
     }
+    public void GainRevenue(int revenue)
+    {
+        Currency += revenue;
+        UpdateCoinDisplay();
+    }
 
 }

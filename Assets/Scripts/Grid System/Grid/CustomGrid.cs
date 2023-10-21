@@ -90,4 +90,9 @@ public class CustomGrid<T>{
         GetXY(worldPosition, out x, out y);
         return GetValue(x, y);
     }
+    public void GetSize(out int width, out int height)
+    {
+        width = this.width; 
+        height = this.height;
+    }
 }

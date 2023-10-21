@@ -31,6 +31,10 @@ public class InterractableObject : MonoBehaviour, IInteractable
     {
         canInterract = input;
     }
+    public bool GetInterractState()
+    {
+        return canInterract;
+    }
     public virtual void OnHoverEnter()
     {
         Debug.Log("Hovering");

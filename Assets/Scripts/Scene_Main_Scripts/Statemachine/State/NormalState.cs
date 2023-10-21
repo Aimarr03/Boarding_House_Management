@@ -28,7 +28,7 @@ public class NormalState : StateDefault
     }
     public void Update()
     {
-        Debug.Log(Enabled);
+        //Debug.Log(Enabled);
         if (Enabled)
         {
             OnClick();

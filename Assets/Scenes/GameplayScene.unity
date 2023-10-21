@@ -2156,10 +2156,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b236da87bb71324ead4e5b561376ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildingSO: {fileID: 11400000, guid: 2c9e1d7e084987844849ad71a6012a0f, type: 2}
+  building: {fileID: 0}
+  _guestRoomSO: {fileID: 11400000, guid: cde0656f55220024ba670dff781b9293, type: 2}
   interractedLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
+  BuildingDialogue: {fileID: 2146039413}
+  room: {fileID: 0}
 --- !u!114 &1180140993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2205,7 +2208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueContent: {fileID: 1060177776}
   personName: {fileID: 0}
-  DialogueUI: {fileID: 639487303}
+  DialogueUI: {fileID: 1498257425}
 --- !u!1 &1218492580
 GameObject:
   m_ObjectHideFlags: 0

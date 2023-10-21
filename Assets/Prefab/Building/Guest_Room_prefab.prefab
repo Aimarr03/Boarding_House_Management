@@ -77,4 +77,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e103e7ba89ff8543b866410d42cd39a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingSO: {fileID: 11400000, guid: da1681e74d7ccce48b5921b8f7127901, type: 2}
+  buildingSO: {fileID: 11400000, guid: cde0656f55220024ba670dff781b9293, type: 2}
