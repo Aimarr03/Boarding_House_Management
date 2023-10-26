@@ -1,24 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
+    public static TimeManager instance;
     [SerializeField] TextMeshProUGUI monthDisplay;
     [SerializeField] TextMeshProUGUI dateDisplay;
 
+
+
     [SerializeField] private float maxTime;
+    public event Action ChangeSection;
+    public event Action ChangeDate;
     private float currentTime;
     private int month;
     private int date;
+    private float currentSpeed;
+    private float normalSpeed;
+    private float doubleSpeed;
+    public bool pauseTime;
     // Start is called before the first frame update
     void Awake()
     {
+        if (instance != null) return; 
+        instance = this;
         month = 1;
         date = 1;
+        normalSpeed = 1f;
+        doubleSpeed = 2f;
+        currentSpeed = normalSpeed;
         currentTime = maxTime;
-        NextDay();
+        DisplayDate();
     }
 
     // Update is called once per frame
@@ -34,17 +47,70 @@ public class TimeManager : MonoBehaviour
             month++;
             date = 1;
         }
-        monthDisplay.text = "Month: " + month.ToString();
-        dateDisplay.text = "Date: " + date.ToString();
+        if(date % 7 == 0)
+        {
+            ChangeSection?.Invoke();
+        }
+        DisplayDate();
+        if (CheckProbability(date % 10))
+        {
+            RandomEventOccur();
+        }
+        if(CleanManager.instance.furnitures.Count > 0)
+        {
+            CleanManager.instance.GainDirtyFurniture(CleanManager.instance.furnitures.Count);
+        }
         EconomyManager.instance.GainRevenue();
+        EconomyManager.instance.PaymentRoom();
+        QueueManager.instance.AddNewLine();
+        ChangeDate?.Invoke();
     }
     private void DayCountDown()
     {
-        currentTime -= Time.deltaTime;
-        if(currentTime <= 0)
+        if (!pauseTime)
         {
-            NextDay();
-            currentTime = maxTime;
+            currentTime -= Time.deltaTime * currentSpeed;
+            if(currentTime <= 0)
+            {
+                NextDay();
+                currentTime = maxTime;
+            }
         }
+    }
+    private bool CheckProbability(int input)
+    {
+        float baseProbability = 0.1f;
+        if(input != 0)
+        {
+            baseProbability = baseProbability * input;
+            return UnityEngine.Random.value < baseProbability;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    public void RandomEventOccur()
+    {
+        EconomyManager.instance.SetBrokenRoom();
+    }
+    private void DisplayDate()
+    {
+        monthDisplay.text = "Month: " + month.ToString();
+        dateDisplay.text = "Date: " + date.ToString();
+    }
+    public void Pause()
+    {
+        pauseTime = true;
+    }
+    public void NormalSpeed()
+    {
+        pauseTime = false;
+        currentSpeed = normalSpeed;
+    }
+    public void FasterSpeed()
+    {
+        pauseTime = false;
+        currentSpeed = doubleSpeed;
     }
 }

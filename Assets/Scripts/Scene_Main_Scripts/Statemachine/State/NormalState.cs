@@ -40,7 +40,7 @@ public class NormalState : StateDefault
         base.OnClick();
         if (Input.GetMouseButtonDown(0))
         {
-            if (_currentInterractedObject != null)
+            if (_currentInterractedObject != null && _currentInterractedObject.GetInterractState())
             {
                 interacting = true;
                 _currentInterractedObject.Interracted();
@@ -50,19 +50,34 @@ public class NormalState : StateDefault
         {
             _currentInterractedObject.HoldInterraction();
         }
-        if (Input.GetMouseButtonUp(0) && _currentInterractedObject != null)
+        if (Input.GetMouseButtonUp(0) && _currentInterractedObject != null && _currentInterractedObject.GetInterractState())
         {
             if (_currentInterractedObject is Cleaning)
             {
                 Cleaning CurrentInteractedObject = _currentInterractedObject as Cleaning;
                 CurrentInteractedObject.ResetDuration();
             }
+            else
+            {
+                _currentInterractedObject.ExitInterracted();
+            }
             interacting = false;
         }
-
+        if(Input.GetMouseButtonDown(1) && _currentInterractedObject != null)
+        {
+            if(_currentInterractedObject is Dialogue_Starter_Character)
+            {
+                Dialogue_Starter_Character currentInterractedCharacter = _currentInterractedObject as Dialogue_Starter_Character;
+                currentInterractedCharacter.ToggleOccupied();
+            }
+        }
     }
     void SetCurrentInterractableObject(InterractableObject _InterractableObject)
     {
+        if(_currentInterractedObject is Dialogue_Starter_Character)
+        {
+            _currentInterractedObject.ExitInterracted();
+        }
         _currentInterractedObject = _InterractableObject;
         OnHovering?.Invoke(_currentInterractedObject);
     }

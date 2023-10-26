@@ -7,40 +7,62 @@ public class BuildingState : StateDefault
 {
     public static BuildingState instance;
 
+    [SerializeField] private Transform BuildableRoom;
     [SerializeField] private BuildingSO building;
     [SerializeField] private GuestRoomSO _guestRoomSO;
     [SerializeField] private LayerMask interractedLayer;
 
-
+    [SerializeField] private _MainOption mainOption;
     [SerializeField] private Transform BuildingDialogue;
-    [SerializeField]private Room room;
-    private CustomGrid<GridObject> _grid;
+    [SerializeField] private Room room;
 
+    [Header("Guest Room")]
+    [SerializeField] private GuestRoom guestRoom;
+    private CustomGrid<GridObject> _grid;
+    
 
     private int room_index = 0;
     public void Awake()
     {
         if (instance != null) return; 
-        BuildingDialogue.gameObject.SetActive(false);
+        mainOption.gameObject.SetActive(false);
         instance = this;
     }
     public void Start()
     {
         _grid = new CustomGrid<GridObject>(3, 5, 6, 3, new Vector3(-15, -5, 0), () => new GridObject());
+        _grid.GetSize(out int width, out int height);
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                Transform visualBuilding = Instantiate(BuildableRoom,_grid.GetMiddleWorldPosition(x,y),Quaternion.identity);
+                visualBuilding.gameObject.SetActive(false);
+                _grid.GetValue(x,y).SetVisualBuilding(visualBuilding);
+            }
+        }
         BuildRoom(0, 0, _guestRoomSO);
+        SetVisualGrid(false);
     }
     public override void EnterState()
     {
         base.EnterState();
-        BuildingDialogue.gameObject.SetActive(true);
+        TimeManager.instance.Pause();
+        mainOption.gameObject.SetActive(true);
+        mainOption.DisplayOption(0);
+        CheckBuildableVisual();
         Enabled = true;
+        NormalState.instance.ExitState();
     }
 
     public override void ExitState()
     {
         base.ExitState();
-        BuildingDialogue.gameObject.SetActive(false);
+        TimeManager.instance.NormalSpeed();
+        mainOption.gameObject.SetActive(false);
+        SetVisualGrid(false);
         Enabled = false;
+        NormalState.instance.EnterState();
     }
     public void Update()
     {
@@ -71,6 +93,7 @@ public class BuildingState : StateDefault
             if(!CheckAbove(x,y)) SellRoom(x, y); 
         }
     }
+    //Check if the lower floor already built or not
     public bool CheckBelow(int x, int y)
     {
         if (_grid.Buildable(x, y))
@@ -87,7 +110,7 @@ public class BuildingState : StateDefault
         _grid.GetSize(out int width, out int height);
         if (_grid.Buildable(x, y))
         {
-            if(y < height)
+            if(y < height-1)
             {
                 Debug.Log(!_grid.GetValue(x, y + 1).IsBuildable());
                 return !_grid.GetValue(x, y + 1).IsBuildable();
@@ -97,7 +120,14 @@ public class BuildingState : StateDefault
     }
     public void SellRoom(int x, int y)
     {
-        room = _grid.GetValue(x, y).GetBuilding().GetComponent<Room>();
+        GridObject currentObject = _grid.GetValue(x, y);
+        currentObject.GetBuilding().gameObject.TryGetComponent<Room>(out Room currentRoom);
+        RoomSlot currentRoomSlot = currentRoom.getRoomSlot();
+        if(currentObject.IsBuildable() || !currentRoomSlot.isEmpty())
+        {
+            return;
+        }
+        room = currentObject.GetBuilding().GetComponent<Room>();
         if(room == null)
         {
             return;
@@ -114,11 +144,33 @@ public class BuildingState : StateDefault
                 if (gridObject == null) break;
                 gridObject.SetBuilding(null);
             }
-            string keyRoom = room.name;
+            string keyRoom = room.GetRoomIndex();
             EconomyManager.instance.GainRevenue(currentBuildingSO.costPurchase);
             EconomyManager.instance.roomObtain.Remove(keyRoom);
+            //Remove from LinkedList
+            for(int index = 0; index < EconomyManager.instance.roomObtainList.Count; index++)
+            {
+                if (EconomyManager.instance.roomObtainList[index].GetRoomIndex() == keyRoom)
+                {
+                    EconomyManager.instance.roomObtainList.RemoveAt(index);
+                    Debug.Log("Remove from List" + room.GetRoomIndex());
+                }
+            }
             Destroy(room.gameObject);
+            SetVisualBuildBuy(x, y, true);
             Debug.Log("room sold");
+        }
+    }
+    public void ToggleEnable()
+    {
+        Enabled = !Enabled;
+        if (Enabled)
+        {
+            EnterState();
+        }
+        else
+        {
+            ExitState();
         }
     }
     public void BuildRoom(int x, int y, BuildingSO building)
@@ -154,7 +206,12 @@ public class BuildingState : StateDefault
             {
                 currentRoom.SetRoomIndex(roomIndexString);
                 EconomyManager.instance.roomObtain.Add(roomIndexString, currentRoom);
-                buildingInstantiated.GetComponent<SpriteRenderer>().sprite = building.roomType[x];
+                EconomyManager.instance.roomObtainList.Add(currentRoom);
+                buildingInstantiated.GetChild(2).GetComponent<SpriteRenderer>().sprite = building.roomType[x];
+            }
+            else
+            {
+                guestRoom = currentRoom as GuestRoom;
             }
             foreach (Vector2Int currentGrid in ObjectSize)
             {
@@ -163,10 +220,27 @@ public class BuildingState : StateDefault
                 //Check if the grid is offset from the maximum or minimmun on the x or y axis
                 if (gridObject == null) break;
                 gridObject.SetBuilding(buildingInstantiated);
+                SetVisualBuildBuy(x, y, false);
             }
             _grid.GetValue(x, y).SetBuilding(buildingInstantiated);
             room_index++;
+            SetVisualBuildBuy(x,y, false);
+            room = null;
         }
+    }
+    public bool BuyFurnitue(FurnitureSO furniture)
+    {
+        if (EconomyManager.instance.CheckMoney(furniture.cost))
+        {
+            guestRoom.AddedFurniture(furniture);
+            EconomyManager.instance.UseMoney(furniture.cost);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
     public void SetBuildingSO(BuildingSO buildingSO)
     {
@@ -175,6 +249,42 @@ public class BuildingState : StateDefault
     public void SetGridObject(Room room)
     {
         this.room = room;
+    }
+    public void CheckBuildableVisual()
+    {
+        _grid.GetSize(out int width, out int height);
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                _grid.GetValue(x, y).SetVisual(CheckBelow(x,y));
+            }
+        }
+    }
+    public void SetVisualBuildBuy(int x, int y, bool input)
+    {
+        _grid.GetSize(out int width, out int height);
+        GridObject gridObject =_grid.GetValue(x, y);
+        gridObject.SetVisual(input);
+        if(y == height-1)
+        {
+            return;
+        }
+        if(!CheckAbove(x, y))
+        {
+            _grid.GetValue(x, y+1).SetVisual(!input);
+        }
+    }
+    public void SetVisualGrid(bool input)
+    {
+        _grid.GetSize(out int width, out int height);
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                _grid.GetValue(x, y).SetVisual(input);
+            }
+        }
     }
     public override void Hovering()
     {

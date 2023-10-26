@@ -7,7 +7,7 @@ public class InterractableObject : MonoBehaviour, IInteractable
     [SerializeField] protected bool canInterract;
     [SerializeField] protected Transform InterractedIndicator;
 
-    public void Awake()
+    public virtual void Awake()
     {
         canInterract = true;
     }
@@ -22,6 +22,10 @@ public class InterractableObject : MonoBehaviour, IInteractable
         {
             Debug.Log("Cannot Interracted!");
         }
+    }
+    public virtual void ExitInterracted()
+    {
+
     }
     public virtual void HoldInterraction()
     {

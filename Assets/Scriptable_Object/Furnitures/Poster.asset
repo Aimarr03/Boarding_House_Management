@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25b809471968514a8a91b88df2dab7d, type: 3}
   m_Name: Poster
   m_EditorClassIdentifier: 
-  furnitureName: 
+  furnitureName: Poster
   prefab: {fileID: 0}
   image: {fileID: 21300000, guid: 55ab72909469cac4481dd9efa6af4a55, type: 3}
   cost: 0

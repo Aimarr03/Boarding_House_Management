@@ -6,7 +6,10 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     [SerializeField] private BuildingSO buildingSO;
+    [SerializeField] private BrokenIndicator brokenIndicator;
+    [SerializeField] private RoomSlot roomSlot;
     private string room_Index;
+    
     public BuildingSO GetBuildingSO()
     {
         return buildingSO;
@@ -14,6 +17,10 @@ public class Room : MonoBehaviour
     public int GetProfit()
     {
         return buildingSO.baseRevenue;
+    }
+    public int GetCost()
+    {
+        return buildingSO.baseTax;
     }
     public void SetRoomIndex(int index)
     {
@@ -26,5 +33,13 @@ public class Room : MonoBehaviour
     public string GetRoomIndex()
     {
         return room_Index;
+    }
+    public BrokenIndicator GetBrokenIndicator()
+    {
+        return brokenIndicator;
+    }
+    public RoomSlot getRoomSlot()
+    {
+        return roomSlot;
     }
 }

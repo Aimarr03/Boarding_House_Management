@@ -6,6 +6,7 @@ using UnityEngine;
 public class EconomyManager : MonoBehaviour
 {
     public Dictionary<string, Room> roomObtain;
+    public List<Room> roomObtainList;
     [SerializeField] private TextMeshProUGUI coinUI;
     public static EconomyManager instance;
     private int Currency;
@@ -17,6 +18,7 @@ public class EconomyManager : MonoBehaviour
         Currency = 1000;
         UpdateCoinDisplay();
         roomObtain = new Dictionary<string, Room>();
+        roomObtainList = new List<Room>();
     }
     // Start is called before the first frame update
     void Start()
@@ -42,6 +44,28 @@ public class EconomyManager : MonoBehaviour
             UpdateCoinDisplay();
         }
     }
+    public void SetBrokenRoom()
+    {
+        if (roomObtainList.Count > 0)
+        {
+            int index = Random.Range(0, roomObtainList.Count - 1);
+            roomObtainList[index].GetBrokenIndicator().SetBrokenState(true);
+            Debug.Log(roomObtainList[index].GetRoomIndex() + " is broken!");
+        }
+    }
+    public void FixBrokenRoom(Room room, int cost)
+    {
+        UseMoney(cost);
+        foreach(Room currentRoom in roomObtainList)
+        {
+            if (currentRoom.GetRoomIndex() == room.GetRoomIndex())
+            {
+                currentRoom.GetBrokenIndicator().SetBrokenState(false);
+                Debug.Log(currentRoom.GetRoomIndex() + " is fixed");
+                break;
+            }
+        }
+    }
     public void UpdateCoinDisplay()
     {
         coinUI.text = Currency.ToString();
@@ -51,9 +75,22 @@ public class EconomyManager : MonoBehaviour
         float revenue = 0;
         foreach(Room room in roomObtain.Values)
         {
-            revenue += room.GetProfit();
+            if (room.GetBrokenIndicator().GetBrokenState() || room.getRoomSlot().isEmpty()) continue;
+            Character currentCharacter = room.getRoomSlot().GetCharacter();
+            float multiplyRevenue = currentCharacter.GetMultiplyMoodIndicator();
+            revenue += room.GetProfit() * multiplyRevenue;
         }
         Currency += (int)revenue;
+        UpdateCoinDisplay();
+    }
+    public void PaymentRoom()
+    {
+        float cost = 0;
+        foreach(Room room in roomObtain.Values)
+        {
+            cost += room.GetCost();
+        }
+        Currency -= (int)cost;
         UpdateCoinDisplay();
     }
     public void GainRevenue(int revenue)

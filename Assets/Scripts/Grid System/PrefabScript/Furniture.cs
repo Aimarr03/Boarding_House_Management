@@ -5,6 +5,7 @@ using UnityEngine;
 public class Furniture : MonoBehaviour
 {
     [SerializeField] private FurnitureSO furnitureSO;
+    [SerializeField] private Cleaning cleaning;
     public FurnitureSO GetFurnitureSO()
     {
         return furnitureSO;
@@ -12,5 +13,9 @@ public class Furniture : MonoBehaviour
     public void SetFurnitureSO(FurnitureSO input)
     {
         furnitureSO = input;
+    }
+    public Cleaning GetCleaning()
+    {
+        return cleaning;
     }
 }

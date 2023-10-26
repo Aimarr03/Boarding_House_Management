@@ -9,6 +9,10 @@ public class SelectedCharacter : MonoBehaviour
     {
         NormalState.instance.OnHovering += GameplayScene_OnHovering;
     }
+    public void OnDestroy()
+    {
+        NormalState.instance.OnHovering -= GameplayScene_OnHovering;
+    }
 
     private void GameplayScene_OnHovering(InterractableObject currentInterractedObject)
     {

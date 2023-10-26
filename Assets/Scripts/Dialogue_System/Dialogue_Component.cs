@@ -8,17 +8,4 @@ public class Dialogue_Component : ScriptableObject
     public List<string> characters_Involved;
     public bool ConversationDone;
     public List<Dialogue> Conversation;
-    public enum position
-    {
-        left,
-        right
-    }
-    [System.Serializable]
-    public class Dialogue
-    {
-        public string name;
-        public string expression;
-        public string dialogue;
-        public position position;
-    }
 }

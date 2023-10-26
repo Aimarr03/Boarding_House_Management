@@ -1,3 +1,5 @@
+using Ink.Runtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,12 +11,13 @@ public class DialogueState : StateDefault
     [SerializeField] TextMeshProUGUI personName;
     [SerializeField] Transform DialogueUI;
 
-    private Dialogue_Component currentDialogue;
-    private List<Dialogue_Component.Dialogue> currentConversation;
-    private Dialogue_Starter currentCharacter;
-    private int conversationIndex;
+    private Story currentStory;
+    private Dialogue_Starter_BigBoss currentCharacter;
+    private string currentLine;
     public static DialogueState instance;
 
+    public event Action EndDialogue;
+    public event Action BoughtMoney;
     public void Awake()
     {
         if (instance != null) return;
@@ -32,27 +35,39 @@ public class DialogueState : StateDefault
     {
         base.EnterState();
         Enabled = true;
+        TimeManager.instance.Pause();
+        NormalState.instance.ExitState();
     }
 
     public override void ExitState()
     {
         base.ExitState();
+        if (currentStory.variablesState["CheckMoney"] != null)
+        {
+            int cost = (int)currentStory.variablesState["MoneyCost"];
+            EconomyManager.instance.UseMoney(cost);
+            BoughtMoney?.Invoke();
+        }
         Enabled = false;
         DialogueUI.gameObject.SetActive(false);
+        currentCharacter.SetCanDialogue(false);
+        TimeManager.instance.NormalSpeed();
+        NormalState.instance.EnterState();
+        EndDialogue?.Invoke();
     }
 
     public override void OnClick()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if(dialogueContent.text == currentConversation[conversationIndex].dialogue)
+            if(dialogueContent.text == currentLine)
             {
                 NextLine();
             }
             else
             {
                 StopAllCoroutines();
-                dialogueContent.text = currentConversation[conversationIndex].dialogue;
+                dialogueContent.text = currentLine;
             }
         }
     }
@@ -61,15 +76,19 @@ public class DialogueState : StateDefault
     {
         base.Hovering();
     }
-    public void SetDialogue(Dialogue_Component dialogue, Dialogue_Starter characterTalking)
+    public void SetDialogue(TextAsset dialogue, Dialogue_Starter_BigBoss characterTalking)
     {
-        currentDialogue = dialogue;
+        currentStory = new Story(dialogue.text);
         currentCharacter = characterTalking;
-        currentConversation = currentDialogue.Conversation;
-        DialogueUI.gameObject.SetActive(true);
         dialogueContent.text = "";
-        conversationIndex = 0;
+        DialogueUI.gameObject.SetActive(true);
+        if (currentStory.variablesState["CheckMoney"] != null)
+        {
+            int cost = (int)currentStory.variablesState["MoneyCost"];
+            currentStory.variablesState["CheckMoney"] = EconomyManager.instance.CheckMoney(cost);
+        }
         EnterState();
+        currentLine = currentStory.Continue();
         StartCoroutine(DisplayDialogue());
     }
     public void StartConversation()
@@ -78,23 +97,21 @@ public class DialogueState : StateDefault
     }
     public void NextLine()
     {
-        if(conversationIndex < currentConversation.Count-1)
+        if (currentStory.canContinue)
         {
-            conversationIndex++;
-            dialogueContent.text = "";
-            StartCoroutine(DisplayDialogue());
+            currentLine = currentStory.Continue();  // Set the new line first.
+            dialogueContent.text = "";  // Clear the text.
+            StartCoroutine(DisplayDialogue());  // Start the coroutine to display the new line.
         }
         else
         {
-            currentDialogue.ConversationDone = true;
-            currentCharacter.setInterract(false);
             ExitState();
-            NormalState.instance.EnterState();
         }
     }
+
     private IEnumerator DisplayDialogue()
     {
-        foreach(char c in currentConversation[conversationIndex].dialogue)
+        foreach(char c in currentLine.ToCharArray())
         {
             dialogueContent.text += c;
             yield return new WaitForSeconds(0.05f);

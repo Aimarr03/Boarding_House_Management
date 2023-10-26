@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class GuestRoom : Room
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private List<Furniture> furnitures;
 
-    // Update is called once per frame
-    void Update()
+    public void AddedFurniture(FurnitureSO furnitureSO)
     {
-        
+        foreach(Furniture furniture in furnitures)
+        {
+            if(furniture.GetFurnitureSO() == furnitureSO)
+            {
+                furniture.gameObject.SetActive(true);
+                CleanManager.instance.furnitures.Add(furniture);
+            }
+        }
     }
 }
