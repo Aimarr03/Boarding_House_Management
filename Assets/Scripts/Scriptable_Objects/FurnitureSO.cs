@@ -10,5 +10,5 @@ public class FurnitureSO : ScriptableObject
     public Transform prefab;
     public Sprite image;
     public int cost;
-    public float multiplier;
+    public int reputationPoint;
 }

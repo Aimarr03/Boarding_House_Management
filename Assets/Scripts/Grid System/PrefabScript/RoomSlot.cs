@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class RoomSlot : MonoBehaviour
 {
-    [SerializeField] private Transform roomSlot;
-    [SerializeField] private Character character;
-    [SerializeField] private Room room;
+    [SerializeField] protected Transform roomSlot;
+    [SerializeField] protected Character character;
+    [SerializeField] protected Room room;
 
     //Trying to have indicator 
     private int occupyNormal;
     private int occupyAbnormal;
 
-    private void Awake()
+    public virtual void Awake()
     {
         occupyAbnormal = 0;
         occupyNormal = 0;
@@ -24,9 +24,9 @@ public class RoomSlot : MonoBehaviour
         TimeManager.instance.ChangeDate -= Instance_ChangeDate;
     }
 
-    private void Instance_ChangeDate()
+    protected virtual void Instance_ChangeDate()
     {
-        if (!isEmpty())
+        if (!isEmpty() && !(room is GuestRoom))
         {
             if (room.GetBrokenIndicator().GetBrokenState())
             {

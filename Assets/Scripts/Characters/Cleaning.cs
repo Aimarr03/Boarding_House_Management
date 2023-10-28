@@ -46,5 +46,8 @@ public class Cleaning : InterractableObject, IHasProgress
     {
         DoneCleaning = input;
     }
-    
+    public bool GetCleanStatus()
+    {
+        return DoneCleaning;
+    }
 }

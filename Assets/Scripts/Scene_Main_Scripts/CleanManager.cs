@@ -27,4 +27,21 @@ public class CleanManager : MonoBehaviour
             currentCleaning.SetDoingCleaning(false);
         }
     }
+    public void RevenueStream()
+    {
+        if (!(furnitures.Count > 0)) return;
+        foreach(Furniture currentFurniture in furnitures)
+        {
+            Cleaning currentCleaning = currentFurniture.GetCleaning();
+            FurnitureSO currentFurnitureSO = currentFurniture.GetFurnitureSO();
+            if (currentCleaning.GetCleanStatus())
+            {
+                ReputationManager.instance.GainReputation(currentFurnitureSO.reputationPoint);
+            }
+            else
+            {
+                ReputationManager.instance.ReduceReputation(currentFurnitureSO.reputationPoint);
+            }
+        }
+    }
 }

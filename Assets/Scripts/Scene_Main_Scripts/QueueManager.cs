@@ -8,9 +8,17 @@ public class QueueManager : MonoBehaviour
     [SerializeField] private List<CharacterSO> ListCharacter;
     [SerializeField] private GameObject QueueEntry;
     [SerializeField] private Transform InstantiatePoint;
+    
+    public int defaultDuration;
+    
+    private int normalDuration;
+    private int slowDuration;
+    private int fastDuration;
+    
     public Vector2 firstPosition;
     public int size;
     private WaitingQueue _waitingQueue;
+
     private void Awake()
     {
         if (instance != null) return;
@@ -25,6 +33,36 @@ public class QueueManager : MonoBehaviour
         _waitingQueue = new WaitingQueue(listQueue);
         _waitingQueue.SetParent(QueueEntry);
 
+        normalDuration = 2;
+        slowDuration = 3;
+        fastDuration = 1;
+        defaultDuration = normalDuration;
+        
+    }
+    private void Start()
+    {
+        ReputationManager.instance.IndicatorChange += Instance_IndicatorChange;
+    }
+
+    private void Instance_IndicatorChange(ReputationManager.StatusReputation currentStatus)
+    {
+        switch (currentStatus)
+        {
+            case ReputationManager.StatusReputation.low:
+                defaultDuration = slowDuration;
+                break;
+            case ReputationManager.StatusReputation.normal:
+                defaultDuration = normalDuration;
+                break;
+            case ReputationManager.StatusReputation.high:
+                defaultDuration = fastDuration;
+                break;
+        }
+    }
+
+    public void OnDestroy()
+    {
+        ReputationManager.instance.IndicatorChange -= Instance_IndicatorChange;
     }
 
     // Update is called once per frame

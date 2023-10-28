@@ -13,13 +13,17 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float maxTime;
     public event Action ChangeSection;
     public event Action ChangeDate;
+    
     private float currentTime;
     private int month;
     private int date;
+
     private float currentSpeed;
     private float normalSpeed;
     private float doubleSpeed;
     public bool pauseTime;
+
+    private int triggerAddLine;
     // Start is called before the first frame update
     void Awake()
     {
@@ -31,6 +35,7 @@ public class TimeManager : MonoBehaviour
         doubleSpeed = 2f;
         currentSpeed = normalSpeed;
         currentTime = maxTime;
+        triggerAddLine = 0;
         DisplayDate();
     }
 
@@ -42,6 +47,7 @@ public class TimeManager : MonoBehaviour
     private void NextDay()
     {
         date++;
+        triggerAddLine++;
         if(date == 30)
         {
             month++;
@@ -62,7 +68,20 @@ public class TimeManager : MonoBehaviour
         }
         EconomyManager.instance.GainRevenue();
         EconomyManager.instance.PaymentRoom();
-        QueueManager.instance.AddNewLine();
+        if (!EconomyManager.instance.CheckRoomEmpty())
+        {
+            triggerAddLine = 0;
+        }
+        if(triggerAddLine % QueueManager.instance.defaultDuration == 0)
+        {
+            triggerAddLine = 0;
+            QueueManager.instance.AddNewLine();
+        }
+
+        ReputationManager.instance.ResetReputation();
+        EconomyManager.instance.RevenueStream();
+        CleanManager.instance.RevenueStream();
+
         ChangeDate?.Invoke();
     }
     private void DayCountDown()

@@ -16,4 +16,4 @@ MonoBehaviour:
   prefab: {fileID: 0}
   image: {fileID: 21300000, guid: f4cf2f06956d1da4aabbb4183ece20c0, type: 3}
   cost: 500
-  multiplier: 0
+  reputationPoint: 35

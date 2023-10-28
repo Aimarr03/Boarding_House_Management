@@ -21,5 +21,6 @@ MonoBehaviour:
   height: 1
   width: 1
   costPurchase: 250
-  baseRevenue: 75
+  baseRevenue: 175
   baseTax: 50
+  reputationPoint: 4

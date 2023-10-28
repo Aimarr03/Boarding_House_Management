@@ -65,6 +65,7 @@ public class Dialogue_Starter_Character : InterractableObject
             {
                 if (RoomSearched.getRoomSlot().isEmpty())
                 {
+                    //To changed from one room to another
                     if(currentRoom != null)
                     {
                         currentRoom.getRoomSlot().SetRoom(null);

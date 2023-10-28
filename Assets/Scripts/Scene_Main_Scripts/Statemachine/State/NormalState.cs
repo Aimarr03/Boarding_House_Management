@@ -57,7 +57,7 @@ public class NormalState : StateDefault
                 Cleaning CurrentInteractedObject = _currentInterractedObject as Cleaning;
                 CurrentInteractedObject.ResetDuration();
             }
-            else
+            else if(_currentInterractedObject is Dialogue_Starter_Character)
             {
                 _currentInterractedObject.ExitInterracted();
             }

@@ -98,5 +98,39 @@ public class EconomyManager : MonoBehaviour
         Currency += revenue;
         UpdateCoinDisplay();
     }
-
+    public void RevenueStream()
+    {
+        if (!(roomObtainList.Count > 0)) return;
+        foreach(Room currentRoom in roomObtainList)
+        {
+            BrokenIndicator currentBrokenIndicator = currentRoom.GetBrokenIndicator();
+            RoomSlot currentRoomSlot = currentRoom.getRoomSlot();
+            BuildingSO currentBuildingSO = currentRoom.GetBuildingSO();
+            int currentReputationPoint = currentBuildingSO.reputationPoint;
+            if (currentBrokenIndicator.GetBrokenState())
+            {
+                ReputationManager.instance.ReduceReputation(currentReputationPoint);
+            }
+            else
+            {
+                if (!currentRoomSlot.isEmpty())
+                {
+                    currentReputationPoint = (int)(currentReputationPoint * 1.5f);
+                }
+                ReputationManager.instance.GainReputation(currentReputationPoint);
+            }
+        }
+    }
+    public bool CheckRoomEmpty()
+    {
+        if (!(roomObtainList.Count > 0)) return false;
+        foreach(Room currentRoom in roomObtainList)
+        {
+            if (!currentRoom.getRoomSlot().isEmpty())
+            {
+                return false;
+            }
+        }
+        return true;   
+    }
 }

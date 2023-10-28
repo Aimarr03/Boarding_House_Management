@@ -16,6 +16,7 @@ public class BuildingSO : ScriptableObject
     public int costPurchase;
     public int baseRevenue;
     public int baseTax;
+    public int reputationPoint;
 
     public List<Vector2Int> GetObjectSize(Vector2Int offset)
     {

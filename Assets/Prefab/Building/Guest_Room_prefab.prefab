@@ -530,6 +530,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6755430607123303307, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
+      propertyPath: room
+      value: 
+      objectReference: {fileID: 868666112168310888}
+    - target: {fileID: 7365976078894941254, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.46
+      objectReference: {fileID: 0}
     - target: {fileID: 7796510814240031126, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
       propertyPath: room
       value: 
@@ -581,7 +589,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1914999887682511046, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
       insertIndex: -1
       addedObject: {fileID: 868666112168310888}
+    - targetCorrespondingSourceObject: {fileID: 1914999887682511046, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4161543956461696208}
   m_SourcePrefab: {fileID: 100100000, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
+--- !u!4 &261490686861946026 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7365976078894941254, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
+  m_PrefabInstance: {fileID: 7320658727406954732}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &696634162105330042 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7796510814240031126, guid: 8c4fa4ab95024cb4895ac81508880f94, type: 3}
@@ -617,7 +633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingSO: {fileID: 11400000, guid: cde0656f55220024ba670dff781b9293, type: 2}
   brokenIndicator: {fileID: 696634162105330042}
-  roomSlot: {fileID: 0}
+  roomSlot: {fileID: -4161543956461696208}
   furnitures:
   - {fileID: 215766951334301876}
   - {fileID: 3351604462111920646}
@@ -625,3 +641,18 @@ MonoBehaviour:
   - {fileID: 2276758180090919015}
   - {fileID: 6316180869599729712}
   - {fileID: 2547929762445462355}
+--- !u!114 &-4161543956461696208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9154487715160311850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b134a129a2fa1d842bd0697fce0cbc1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomSlot: {fileID: 261490686861946026}
+  character: {fileID: 0}
+  room: {fileID: 868666112168310888}

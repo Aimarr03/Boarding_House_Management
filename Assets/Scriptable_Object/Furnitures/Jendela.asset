@@ -15,5 +15,5 @@ MonoBehaviour:
   furnitureName: Jendela
   prefab: {fileID: 0}
   image: {fileID: 21300000, guid: 5b6f00b1ee60f73448e9fb400236c408, type: 3}
-  cost: 0
-  multiplier: 0
+  cost: 160
+  reputationPoint: 10
