@@ -6,6 +6,7 @@ public class ManagerCharacter : MonoBehaviour
 {
     [SerializeField] private Transform defaultPosition;
     public static ManagerCharacter instance;
+    [SerializeField] private Animator animator;
     public void Awake()
     {
         if(instance != null) return; 
@@ -15,6 +16,7 @@ public class ManagerCharacter : MonoBehaviour
     {
         if(action is BrokenIndicator)
         {
+            animator.SetBool("IsCleaning", true);
             BrokenIndicator brokenIndicator = action as BrokenIndicator;
             transform.position = brokenIndicator.repairingPosition.position;
             
@@ -40,6 +42,7 @@ public class ManagerCharacter : MonoBehaviour
     {
         StopAllCoroutines();
         transform.position = defaultPosition.position;
+        animator.SetBool("IsCleaning", false);
     }
     //Check if position is not equal to default position, meaning it is busy
     public bool IsBusy()

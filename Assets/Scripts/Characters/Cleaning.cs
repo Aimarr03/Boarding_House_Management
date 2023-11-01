@@ -30,6 +30,7 @@ public class Cleaning : InterractableObject, IHasProgress
         {
             return;
         }
+        if (ManagerCharacter.instance.IsBusy()) return;  
         ManagerCharacter.instance.DoAction(this);
         isHolding = true;
         currentTimeCleaning += Time.deltaTime;

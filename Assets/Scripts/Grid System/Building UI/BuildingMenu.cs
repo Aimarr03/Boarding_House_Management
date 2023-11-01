@@ -42,6 +42,7 @@ public class BuildingMenu : MonoBehaviour
     {
         if(gameSectionIndex < buildingListSO.buildings.Count)
         {
+            gameSectionIndex++;
             currentListSO.Add(buildingListSO.buildings[gameSectionIndex]);
             foreach (Transform buildingUI in RoomBuildingContainer)
             {
@@ -57,7 +58,6 @@ public class BuildingMenu : MonoBehaviour
                 currentRoomBuilding.SetBuildingSO(building);
                 RoomUI.gameObject.SetActive(true);
             }
-            gameSectionIndex++;
             Debug.Log("Index: "+gameSectionIndex);
         }
     }

@@ -658,7 +658,7 @@ MonoBehaviour:
   backgroundSpriteRenderer02: {fileID: 808361537}
   morningColor: {r: 1, g: 1, b: 1, a: 1}
   nightColor: {r: 0.19607843, g: 0.15686275, b: 0.3137255, a: 1}
-  maxTime: 5
+  maxTime: 20
   pauseTime: 0
   currentTimeState: 1
 --- !u!114 &148155321
@@ -7793,6 +7793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultPosition: {fileID: 1896878419}
+  animator: {fileID: 1494199120}
 --- !u!4 &1896878419
 Transform:
   m_ObjectHideFlags: 0

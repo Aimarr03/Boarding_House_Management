@@ -43,5 +43,11 @@ public class FileDataHandler
         }
         return null;
     }
-    
+    public void NewData()
+    {
+        if (File.Exists(Path.Combine(directoryPath, fileName)))
+        {
+            File.Delete(Path.Combine(directoryPath, fileName));
+        }
+    }
 }

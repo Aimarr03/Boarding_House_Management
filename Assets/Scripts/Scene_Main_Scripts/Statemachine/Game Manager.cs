@@ -85,14 +85,14 @@ public class GameManager : MonoBehaviour, IDataPersistance
     }
     public void ChangingScene(int input)
     {
-        StartCoroutine(LoadScene(input));
         DataPersistanceManager.instance.SaveGame();
+        StartCoroutine(LoadScene(input));
         Debug.Log("Data Saved");
     }
     public IEnumerator LoadScene(int scene)
     {
         yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(scene);
+        SceneManager.LoadSceneAsync(0);
     }
     public void PauseGame()
     {

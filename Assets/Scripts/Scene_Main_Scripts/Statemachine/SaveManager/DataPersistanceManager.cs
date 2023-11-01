@@ -33,22 +33,16 @@ public class DataPersistanceManager : MonoBehaviour
     public void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     public void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         ListDataPersistance = GetListDataPersistance();
         LoadGame();
-    }
-    public void OnSceneUnloaded(Scene scene)
-    {
-        SaveGame();
     }
 
     private List<IDataPersistance> GetListDataPersistance()
@@ -60,6 +54,7 @@ public class DataPersistanceManager : MonoBehaviour
     public void NewGame()
     {
         gameData = new GameData();
+        fileHandler.NewData();
     }
     public void LoadGame()
     {
@@ -67,7 +62,7 @@ public class DataPersistanceManager : MonoBehaviour
         if(gameData == null)
         {
             Debug.LogWarning("No Data was Found!");
-            return;
+            NewGame();
         }
         foreach(IDataPersistance iDataPersistance in  ListDataPersistance)
         {

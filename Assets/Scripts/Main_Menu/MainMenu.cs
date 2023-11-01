@@ -30,7 +30,7 @@ public class MainMenu : MonoBehaviour
     {
         OnDisable();
         Debug.Log("Continue Game");
-        
+        DataPersistanceManager.instance.SaveGame();
         SceneManager.LoadSceneAsync(1);
     }
     public void OnDisable()
