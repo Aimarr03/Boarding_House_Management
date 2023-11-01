@@ -42,6 +42,7 @@ public class RoomSlot : MonoBehaviour
                     character.ChangeMood(Character.MoodIndicator.Dissapointed);
                     Debug.Log("Character mood changed into Dissapointed");
                     SetRoom(null);
+                    ReputationManager.instance.ModifiyDefaultReputation(-10);
                 }
             }
             else
@@ -73,7 +74,6 @@ public class RoomSlot : MonoBehaviour
     {
         if (character == null)
         {
-            Debug.Log("Character is now null");
             this.character = null;
             return;
         }

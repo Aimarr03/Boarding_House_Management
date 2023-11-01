@@ -1,9 +1,10 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EconomyManager : MonoBehaviour
+public class EconomyManager : MonoBehaviour, IDataPersistance
 {
     public Dictionary<string, Room> roomObtain;
     public List<Room> roomObtainList;
@@ -11,6 +12,9 @@ public class EconomyManager : MonoBehaviour
     public static EconomyManager instance;
     private int Currency;
 
+    //For Loading Saving
+    [SerializeField] private BuildingMenu buildingMenu;
+    [SerializeField] private BigBossCharacter bigBoss;
     public void Awake()
     {
         if (instance != null) return;
@@ -33,7 +37,8 @@ public class EconomyManager : MonoBehaviour
     }
     public bool CheckMoney(int price)
     {
-        return Currency >= price;
+        bool status = Currency >= price;
+        return status;
     }
 
     public void UseMoney(int price)
@@ -48,7 +53,7 @@ public class EconomyManager : MonoBehaviour
     {
         if (roomObtainList.Count > 0)
         {
-            int index = Random.Range(0, roomObtainList.Count - 1);
+            int index = UnityEngine.Random.Range(0, roomObtainList.Count - 1);
             roomObtainList[index].GetBrokenIndicator().SetBrokenState(true);
             Debug.Log(roomObtainList[index].GetRoomIndex() + " is broken!");
         }
@@ -78,7 +83,26 @@ public class EconomyManager : MonoBehaviour
             if (room.GetBrokenIndicator().GetBrokenState() || room.getRoomSlot().isEmpty()) continue;
             Character currentCharacter = room.getRoomSlot().GetCharacter();
             float multiplyRevenue = currentCharacter.GetMultiplyMoodIndicator();
-            revenue += room.GetProfit() * multiplyRevenue;
+            float multiplierCleaning = 1.0f;
+            float multiplierReputation = 1.0f;
+            foreach(Furniture furniture in CleanManager.instance.furnitures)
+            {
+                Cleaning cleaning = furniture.GetCleaning();
+                if (cleaning.GetCleanStatus())
+                {
+                    multiplierCleaning += 0.2f;
+                }
+            }
+            switch (ReputationManager.instance.reputationType)
+            {
+                case ReputationManager.StatusReputation.normal:
+                    multiplierReputation += 0.15f;
+                    break;
+                case ReputationManager.StatusReputation.high:
+                    multiplierReputation += 0.5f;
+                    break;
+            }
+            revenue += room.GetProfit() * multiplyRevenue * multiplierCleaning * multiplierReputation;
         }
         Currency += (int)revenue;
         UpdateCoinDisplay();
@@ -126,11 +150,28 @@ public class EconomyManager : MonoBehaviour
         if (!(roomObtainList.Count > 0)) return false;
         foreach(Room currentRoom in roomObtainList)
         {
-            if (!currentRoom.getRoomSlot().isEmpty())
+            if (currentRoom.getRoomSlot().isEmpty())
             {
-                return false;
+                return true;
             }
         }
-        return true;   
+        return false;   
+    }
+
+    public void LoadScene(GameData gameData)
+    {
+        this.Currency = gameData.money;
+        Debug.Log("Currenct = " + Currency);
+        buildingMenu.gameSectionIndex = gameData.Section;
+        bigBoss.LoadScene(gameData);
+        UpdateCoinDisplay();
+    }
+
+    public void SaveScene(ref GameData gameData)
+    {
+        gameData.money = this.Currency;
+        gameData.Section = buildingMenu.gameSectionIndex;
+        Debug.Log("Currenct saved = " + gameData.money);
+        Debug.Log("Section : "+gameData.Section);
     }
 }

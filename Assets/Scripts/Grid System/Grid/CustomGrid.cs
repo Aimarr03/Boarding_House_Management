@@ -1,19 +1,19 @@
-using CodeMonkey.Utils;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
+[System.Serializable]
 public class CustomGrid<T>{
     private int width;
     private int height;
     private T[,] grid;
     private float cellWidth;
     private float cellHeight;
-    private TextMesh[,] textMesh;
     private Vector3 originPosition;
 
+    public CustomGrid()
+    {
+
+    }
     public CustomGrid(int width, int height, float cellWidth,float cellHeight, Vector3 originPosition, Func<T> CreateInstance)
     {
         this.width = width;
@@ -23,19 +23,13 @@ public class CustomGrid<T>{
         this.originPosition = originPosition;
 
         grid = new T[width, height];
-        textMesh = new TextMesh[width, height];
         for (int x = 0; x < grid.GetLength(0); x++)
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 grid[x,y] = CreateInstance();
-                textMesh[x, y] = UtilsClass.CreateWorldText(grid[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(cellWidth, cellHeight) * .5f, 5, Color.white);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 1000f);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 1000f);
             }
         }
-        Debug.DrawLine((GetWorldPosition(0, height)), GetWorldPosition(width, height), Color.white, 1000f);
-        Debug.DrawLine((GetWorldPosition(width, 0)), GetWorldPosition(width, height), Color.white, 1000f);
         this.originPosition = originPosition;
     }
     public Vector3 GetWorldPosition(int x, int y)
@@ -96,3 +90,4 @@ public class CustomGrid<T>{
         height = this.height;
     }
 }
+

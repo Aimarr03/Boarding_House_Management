@@ -5,6 +5,7 @@ using UnityEngine;
 public class _MainOption : MonoBehaviour
 {
     [SerializeField] private List<Transform> BuildingOption;
+    public Transform BuildingContainer;
     public void Awake()
     {
         foreach (Transform t in BuildingOption)

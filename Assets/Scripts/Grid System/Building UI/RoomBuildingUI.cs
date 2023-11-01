@@ -11,7 +11,7 @@ public class RoomBuildingUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI costRoom;
 
     private Button button;
-    private BuildingSO buildingSO;
+    [SerializeField] private BuildingSO buildingSO;
 
     private void Awake()
     {
@@ -27,8 +27,13 @@ public class RoomBuildingUI : MonoBehaviour
         roomName.text = buildingSO.roomName;
         costRoom.text = buildingSO.costPurchase.ToString();
     }
+    public BuildingSO GetBuildingSO()
+    {
+        return buildingSO;
+    }
     public void OnClicked()
     {
-        BuildingState.instance.SetBuildingSO(buildingSO);    
+        BuildingState.instance.SetBuildingSO(buildingSO);
+        Debug.Log(BuildingState.instance.GetBuildingSO());
     }
 }

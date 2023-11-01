@@ -15,5 +15,5 @@ MonoBehaviour:
   furnitureName: Akuarium
   prefab: {fileID: 0}
   image: {fileID: 21300000, guid: 522b5c8722306e24b8ba5f3f2ffa82fd, type: 3}
-  cost: 40
-  reputationPoint: 15
+  cost: 480
+  reputationPoint: 40

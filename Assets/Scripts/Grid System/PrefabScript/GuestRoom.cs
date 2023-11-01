@@ -5,7 +5,7 @@ using UnityEngine;
 public class GuestRoom : Room
 {
     [SerializeField] private List<Furniture> furnitures;
-
+    public Transform ManagerOriginalPosition;
     public void AddedFurniture(FurnitureSO furnitureSO)
     {
         foreach(Furniture furniture in furnitures)
@@ -16,5 +16,16 @@ public class GuestRoom : Room
                 CleanManager.instance.furnitures.Add(furniture);
             }
         }
+    }
+    public Furniture GetFurniture(FurnitureSO furnitureSO)
+    {
+        foreach (Furniture furniture in furnitures)
+        {
+            if (furniture.GetFurnitureSO() == furnitureSO)
+            {
+                return furniture;
+            }
+        }
+        return null;
     }
 }

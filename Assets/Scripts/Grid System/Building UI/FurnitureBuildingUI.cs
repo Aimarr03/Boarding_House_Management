@@ -14,7 +14,7 @@ public class FurnitureBuildingUI : MonoBehaviour
     private Button button;
     private FurnitureSO furnitureSO;
     private bool bought;
-    private Color BoughtColorIndicator;
+    [SerializeField] Color disabledColor;
 
     private void Awake()
     {
@@ -22,7 +22,6 @@ public class FurnitureBuildingUI : MonoBehaviour
         button = GetComponent<Button>();
         image = GetComponent<Image>();
         button.onClick.AddListener(() => OnClicked());
-        BoughtColorIndicator = new Color(49,20,20);
     }
 
     public void SetFurnitureSO(FurnitureSO furnitureSO)
@@ -45,5 +44,8 @@ public class FurnitureBuildingUI : MonoBehaviour
         bought = input;
         SoldOut.gameObject.SetActive(bought);
     }
-    
+    public FurnitureSO GetFurnitureSO()
+    {
+        return furnitureSO;
+    }
 }

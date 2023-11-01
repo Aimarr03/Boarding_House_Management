@@ -15,12 +15,12 @@ MonoBehaviour:
   roomName: Room 01
   prefab: {fileID: 6197810624324220024, guid: c1bb3f417a55d8e44a1ba74995df617c, type: 3}
   roomType:
-  - {fileID: 21300000, guid: 9937e5635068d6442bea1a09f58fd1c3, type: 3}
-  - {fileID: 21300000, guid: 750344b088a0ef94b9e91c201ab28351, type: 3}
   - {fileID: 21300000, guid: d3f8d6b5be25ed942b4bdd929b941905, type: 3}
+  - {fileID: 21300000, guid: 750344b088a0ef94b9e91c201ab28351, type: 3}
+  - {fileID: 21300000, guid: 9937e5635068d6442bea1a09f58fd1c3, type: 3}
   height: 1
   width: 1
   costPurchase: 150
-  baseRevenue: 100
-  baseTax: 40
-  reputationPoint: 2
+  baseRevenue: 120
+  baseTax: 30
+  reputationPoint: 6

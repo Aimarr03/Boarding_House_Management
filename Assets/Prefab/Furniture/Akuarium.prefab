@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1833615825629885191, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 2.0083334
+      value: 4.82
       objectReference: {fileID: 0}
     - target: {fileID: 1833615825629885191, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.8333334
+      value: 4.4
       objectReference: {fileID: 0}
     - target: {fileID: 1833615825629885191, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
@@ -132,6 +132,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8982484062859620089, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982484062859620089, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4785908738941352515, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
     m_RemovedGameObjects:
@@ -162,8 +170,22 @@ MonoBehaviour:
   canInterract: 1
   InterractedIndicator: {fileID: 4716287994867294976}
   _durationCleaning: 4
+  cleaningPosition: {fileID: 8887455509426868588}
+  DirtyIndicator: {fileID: 5578861220118481702}
+  defaultColor: {r: 1, g: 1, b: 1, a: 0}
+  dirtyColor: {r: 0.2830189, g: 0.1746173, b: 0.1746173, a: 0}
 --- !u!4 &4716287994867294976 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5083784334350081173, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
+  m_PrefabInstance: {fileID: 576078239347310485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5578861220118481702 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5373564717958542515, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
+  m_PrefabInstance: {fileID: 576078239347310485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8887455509426868588 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8982484062859620089, guid: 77f456461f6534447bb3acb676a1f0c8, type: 3}
   m_PrefabInstance: {fileID: 576078239347310485}
   m_PrefabAsset: {fileID: 0}

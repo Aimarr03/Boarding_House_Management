@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ReputationManager : MonoBehaviour
+public class ReputationManager : MonoBehaviour, IDataPersistance
 {
     public static ReputationManager instance;
     public event Action<StatusReputation> IndicatorChange;
@@ -15,6 +15,8 @@ public class ReputationManager : MonoBehaviour
     [SerializeField] private int reputation;
     [SerializeField] private int maxReputation;
     [SerializeField] private int HighReputation;
+
+    public StatusReputation reputationType;
 
     public enum StatusReputation
     {
@@ -31,6 +33,7 @@ public class ReputationManager : MonoBehaviour
         HighReputation = 200;
         maxReputation = 300;
         defaultReputation = reputation;
+        reputationType = StatusReputation.normal;
         UpdateVisual();
     }
     public int GetReputation()
@@ -56,14 +59,17 @@ public class ReputationManager : MonoBehaviour
         if(reputation < 100)
         {
             IndicatorChange?.Invoke(StatusReputation.low);
+            reputationType = StatusReputation.low;
         }
         if(reputation >= 100 && reputation < HighReputation)
         {
             IndicatorChange?.Invoke(StatusReputation.normal);
+            reputationType = StatusReputation.normal;
         }
         if(reputation >= HighReputation)
         {
             IndicatorChange?.Invoke(StatusReputation.high);
+            reputationType= StatusReputation.high;
         }
     }
     public void UpdateVisual()
@@ -73,5 +79,22 @@ public class ReputationManager : MonoBehaviour
     public void ResetReputation()
     {
         reputation = defaultReputation;
+    }
+    public void ModifiyDefaultReputation(int input)
+    {
+        defaultReputation += input;
+    }
+
+    public void LoadScene(GameData gameData)
+    {
+        reputation = gameData.reputation;
+        Debug.Log("reputation = " + reputation);
+        UpdateVisual();
+    }
+
+    public void SaveScene(ref GameData gameData)
+    {
+        gameData.reputation = reputation;
+        Debug.Log("reputation saved = " + gameData.reputation);
     }
 }

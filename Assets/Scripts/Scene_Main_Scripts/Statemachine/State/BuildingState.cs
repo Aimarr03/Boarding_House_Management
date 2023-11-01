@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BuildingState : StateDefault
+public class BuildingState : StateDefault, IDataPersistance
 {
     public static BuildingState instance;
 
@@ -12,43 +12,51 @@ public class BuildingState : StateDefault
     [SerializeField] private GuestRoomSO _guestRoomSO;
     [SerializeField] private LayerMask interractedLayer;
 
+    //For loading room data;
+    [SerializeField] private List<BuildingSO> buildings;
+    [SerializeField] private List<CharacterSO> characters;
+
     [SerializeField] private _MainOption mainOption;
     [SerializeField] private Transform BuildingDialogue;
     [SerializeField] private Room room;
+    [SerializeField] private BuildingListSO buildingList;
+    [SerializeField] private Transform boardingHouseLocation;
 
     [Header("Guest Room")]
-    [SerializeField] private GuestRoom guestRoom;
+    public GuestRoom guestRoom;
     private CustomGrid<GridObject> _grid;
     
 
     private int room_index = 0;
     public void Awake()
     {
-        if (instance != null) return; 
-        mainOption.gameObject.SetActive(false);
+        if (instance != null) return;
+        mainOption.BuildingContainer.gameObject.SetActive(false);
         instance = this;
+        Vector3 Location = boardingHouseLocation.position;
+        _grid = new CustomGrid<GridObject>(3, 6, 14, 7, Location, () => new GridObject());
+        _grid.GetSize(out int width, out int height);
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Transform visualBuilding = Instantiate(BuildableRoom, _grid.GetMiddleWorldPosition(x, y), Quaternion.identity);
+                visualBuilding.gameObject.SetActive(false);
+                _grid.GetValue(x, y).SetVisualBuilding(visualBuilding);
+            }
+        }
+        SetVisualGrid(false);
     }
     public void Start()
     {
-        _grid = new CustomGrid<GridObject>(3, 5, 6, 3, new Vector3(-15, -5, 0), () => new GridObject());
-        _grid.GetSize(out int width, out int height);
-        for(int x = 0; x < width; x++)
-        {
-            for(int y = 0; y < height; y++)
-            {
-                Transform visualBuilding = Instantiate(BuildableRoom,_grid.GetMiddleWorldPosition(x,y),Quaternion.identity);
-                visualBuilding.gameObject.SetActive(false);
-                _grid.GetValue(x,y).SetVisualBuilding(visualBuilding);
-            }
-        }
         BuildRoom(0, 0, _guestRoomSO);
-        SetVisualGrid(false);
+        
     }
     public override void EnterState()
     {
         base.EnterState();
         TimeManager.instance.Pause();
-        mainOption.gameObject.SetActive(true);
+        mainOption.BuildingContainer.gameObject.SetActive(true);
         mainOption.DisplayOption(0);
         CheckBuildableVisual();
         Enabled = true;
@@ -59,13 +67,14 @@ public class BuildingState : StateDefault
     {
         base.ExitState();
         TimeManager.instance.NormalSpeed();
-        mainOption.gameObject.SetActive(false);
+        mainOption.BuildingContainer.gameObject.SetActive(false);
         SetVisualGrid(false);
         Enabled = false;
         NormalState.instance.EnterState();
     }
     public void Update()
     {
+        if (GameManager.instance.GameOverStatus || GameManager.instance.GameIsPaused) return;
         if (Enabled)
         {
             //Hovering();
@@ -74,32 +83,31 @@ public class BuildingState : StateDefault
     }
     public override void OnClick()
     {
-        if(building == null)
-        {
-            return;
-        }
         base.OnClick();
         Vector3 MousePositionVector3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && building != null)
         {
             _grid.GetXY(MousePositionVector3, out int x, out int y);
             if(CheckBelow(x,y)) BuildRoom(x, y, building);
+            
             //CheckBelow(x, y, building);
         }
         if (Input.GetMouseButtonDown(1))
         {
             Debug.Log("Alternative Clicked!");
             _grid.GetXY(MousePositionVector3, out int x, out int y);
+            building = null;
             if(!CheckAbove(x,y)) SellRoom(x, y); 
         }
     }
-    //Check if the lower floor already built or not
+    //Check if the lower floor is already built 
     public bool CheckBelow(int x, int y)
     {
         if (_grid.Buildable(x, y))
         {
             if (y > 0)
             {
+                //below is built
                 return !_grid.GetValue(x, y - 1).IsBuildable();
             }
         }
@@ -113,6 +121,7 @@ public class BuildingState : StateDefault
             if(y < height-1)
             {
                 Debug.Log(!_grid.GetValue(x, y + 1).IsBuildable());
+                //above is built
                 return !_grid.GetValue(x, y + 1).IsBuildable();
             }
         }
@@ -200,7 +209,9 @@ public class BuildingState : StateDefault
             string roomIndexString = "room_" + room_index;
             EconomyManager.instance.UseMoney(building.costPurchase);
             Transform buildingInstantiated = Instantiate(building.prefab, _grid.GetMiddleWorldPosition(x, y), Quaternion.identity);
-            
+            buildingInstantiated.SetParent(boardingHouseLocation, true);
+
+
             buildingInstantiated.TryGetComponent<Room>(out Room currentRoom);
             if (!(currentRoom is GuestRoom))
             {
@@ -212,6 +223,7 @@ public class BuildingState : StateDefault
             else
             {
                 guestRoom = currentRoom as GuestRoom;
+                ManagerCharacter.instance.SetPosition(guestRoom.ManagerOriginalPosition);
             }
             foreach (Vector2Int currentGrid in ObjectSize)
             {
@@ -225,7 +237,7 @@ public class BuildingState : StateDefault
             _grid.GetValue(x, y).SetBuilding(buildingInstantiated);
             room_index++;
             SetVisualBuildBuy(x,y, false);
-            room = null;
+            this.building = null;
         }
     }
     public bool BuyFurnitue(FurnitureSO furniture)
@@ -245,6 +257,10 @@ public class BuildingState : StateDefault
     public void SetBuildingSO(BuildingSO buildingSO)
     {
         this.building = buildingSO;
+    }
+    public BuildingSO GetBuildingSO()
+    {
+        return building;
     }
     public void SetGridObject(Room room)
     {
@@ -308,4 +324,103 @@ public class BuildingState : StateDefault
         }
         else SetGridObject(null);
     }
+
+    public void LoadScene(GameData gameData)
+    {
+        room_index = gameData.room_index;
+        List<GameData.RoomData> roomDatas = gameData.roomDatas;
+        foreach (GameData.RoomData roomData in roomDatas)
+        {
+            if(roomData.roomType != "Guest Room")
+            {
+                BuildingSO currentBuildingSO = GetBuildingSO(roomData.roomType);
+                Transform buildingInstantiated = Instantiate(currentBuildingSO.prefab, 
+                    _grid.GetMiddleWorldPosition(roomData.x_axis, roomData.y_axis), Quaternion.identity);
+                _grid.GetValue(roomData.x_axis, roomData.y_axis).SetBuilding(buildingInstantiated);
+                buildingInstantiated.gameObject.TryGetComponent<Room>(out Room room);
+                Debug.Log(room.GetRoomIndex());
+                if(roomData.roomName != "")
+                {
+                    EconomyManager.instance.roomObtain.Add(roomData.roomName, room);
+                    EconomyManager.instance.roomObtainList.Add(room);
+                }
+                room.SetRoomIndex(roomData.roomName);
+                if (roomData.HasPlayer)
+                {
+                    CharacterSO characterSO = GetCharacterSO(roomData.characterName);
+                    Transform character = Instantiate(characterSO.prefabCharacter.transform);
+                    buildingInstantiated.gameObject.TryGetComponent<RoomSlot>(out RoomSlot roomSlot);
+                    roomSlot.SetRoom(character.GetComponent<Character>());
+                }
+            }
+        }
+        
+    }
+    private void ClearOldData()
+    {
+        // Clear old room data
+        foreach (var room in EconomyManager.instance.roomObtainList)
+        {
+            Destroy(room.gameObject);
+        }
+        EconomyManager.instance.roomObtainList.Clear();
+        EconomyManager.instance.roomObtain.Clear();
+
+        // Clear old furniture data
+        CleanManager.instance.furnitures.Clear();
+    }
+    public BuildingSO GetBuildingSO(string roomName)
+    {
+        foreach(BuildingSO buildingSO in buildings)
+        {
+            if(buildingSO.roomName == roomName)
+            {
+                return buildingSO;
+            }
+        }
+        return null;
+    }
+    public CharacterSO GetCharacterSO(string characterName)
+    {
+        foreach(CharacterSO characterSO in characters)
+        {
+            if(characterSO.characterName == characterName)
+            {
+                return characterSO;
+            }
+        }
+        return null;
+    }
+    
+    public void SaveScene(ref GameData gameData)
+    {
+        gameData.roomDatas.Clear();
+        gameData.room_index = room_index;
+        _grid.GetSize(out int  width, out int height);
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                GridObject gridObject = _grid.GetValue(x, y);
+                if (gridObject.IsBuildable()) continue;
+                gridObject.GetBuilding().TryGetComponent<Room>(out Room room);
+                gridObject.GetBuilding().TryGetComponent<RoomSlot>(out RoomSlot roomSlot);
+                GameData.RoomData roomData = new GameData.RoomData();
+                roomData.x_axis = x;
+                roomData.y_axis = y;
+                roomData.width = room.GetBuildingSO().width;
+                roomData.height = room.GetBuildingSO().height;
+                roomData.roomName = room.GetRoomIndex();
+                roomData.roomType = room.GetBuildingSO().roomName;
+                roomData.HasPlayer = !roomSlot.isEmpty();
+                gameData.roomDatas.Add(roomData);
+                if (roomData.HasPlayer)
+                {
+                    CharacterSO characterSO = roomSlot.GetCharacter().GetCharacterSO();
+                    roomData.characterName = characterSO.name;
+                }
+            }
+        }
+    }
+    
 }

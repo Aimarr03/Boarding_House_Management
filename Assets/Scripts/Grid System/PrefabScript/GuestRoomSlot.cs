@@ -22,6 +22,7 @@ public class GuestRoomSlot : RoomSlot
                 character.ChangeMood(Character.MoodIndicator.Dissapointed);
                 SetRoom(null);
                 waitingDay = 0;
+                ReputationManager.instance.ModifiyDefaultReputation(-5);
             }
         }
         else if(isEmpty())

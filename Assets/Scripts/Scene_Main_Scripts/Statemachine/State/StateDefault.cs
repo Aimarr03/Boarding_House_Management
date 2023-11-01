@@ -20,6 +20,10 @@ public class StateDefault : MonoBehaviour, IState
     {
         
     }
+    public virtual void OnHolding()
+    {
+
+    }
 
     public virtual void Hovering()
     {

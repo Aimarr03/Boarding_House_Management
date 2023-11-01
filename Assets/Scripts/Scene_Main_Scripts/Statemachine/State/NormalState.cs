@@ -28,11 +28,26 @@ public class NormalState : StateDefault
     }
     public void Update()
     {
-        //Debug.Log(Enabled);
+        if (GameManager.instance.GameOverStatus || GameManager.instance.GameIsPaused) return;
         if (Enabled)
         {
-            OnClick();
             Hovering();
+            OnClick();
+        }
+    }
+    public void FixedUpdate()
+    {
+        if (Enabled && !(GameManager.instance.GameOverStatus))
+        {
+            OnHolding();
+        }
+    }
+    public override void OnHolding()
+    {
+        base.OnHolding();
+        if (Input.GetMouseButton(0) && interacting && _currentInterractedObject != null)
+        {
+            _currentInterractedObject.HoldInterraction();
         }
     }
     public override void OnClick()
@@ -46,10 +61,7 @@ public class NormalState : StateDefault
                 _currentInterractedObject.Interracted();
             }
         }
-        if (Input.GetMouseButton(0) && interacting && _currentInterractedObject != null)
-        {
-            _currentInterractedObject.HoldInterraction();
-        }
+        
         if (Input.GetMouseButtonUp(0) && _currentInterractedObject != null && _currentInterractedObject.GetInterractState())
         {
             if (_currentInterractedObject is Cleaning)
@@ -76,7 +88,10 @@ public class NormalState : StateDefault
     {
         if(_currentInterractedObject is Dialogue_Starter_Character)
         {
-            _currentInterractedObject.ExitInterracted();
+            if (_currentInterractedObject.GetInterractState())
+            {
+                _currentInterractedObject.ExitInterracted();
+            }
         }
         _currentInterractedObject = _InterractableObject;
         OnHovering?.Invoke(_currentInterractedObject);

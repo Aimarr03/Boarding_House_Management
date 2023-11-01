@@ -13,6 +13,7 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.GameOverStatus) return;
         Vector2 directionCamera = GetVector2();
 
         

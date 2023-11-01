@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
+  m_Name: SufficientMoney_01
+  m_EditorClassIdentifier: 
+  charactersInvolved:
+  - {fileID: 11400000, guid: f86312702380b2d4895971863c5b3909, type: 2}
+  - {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+  entireConversation:
+  - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+    expressionType: 0
+    position: 0
+    lines:
+    - Here you go...
+    - Happy..?
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  - characterSO: {fileID: 11400000, guid: f86312702380b2d4895971863c5b3909, type: 2}
+    expressionType: 1
+    position: 0
+    lines:
+    - Hmm...
+    - 'Yeah.. '
+    - this should be enough for today
+    - I hope more in next week okay
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+    expressionType: 1
+    position: 0
+    lines:
+    - Gotcha...
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  ConversationDone: 0
+  conversationType: 1
+  Cost: 100
+  nextConversation: {fileID: 11400000, guid: 8356ec851a0e93a42999f35bb25651d1, type: 2}

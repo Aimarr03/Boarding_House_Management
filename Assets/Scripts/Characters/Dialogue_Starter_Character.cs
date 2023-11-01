@@ -5,6 +5,7 @@ using UnityEngine;
 public class Dialogue_Starter_Character : InterractableObject
 {
     [SerializeField] private LayerMask interractedLayer;
+    public Character character;
     private bool occupied;
     private bool _isDragging;
     Vector2 _originalPosition, _offset;
@@ -55,18 +56,18 @@ public class Dialogue_Starter_Character : InterractableObject
     {
         base.OnHoverExit();
     }
-    
+
     public override void ExitInterracted()
     {
         base.ExitInterracted();
-        if(RoomSearched != null)
+        if (RoomSearched != null)
         {
-            if (Vector2.Distance(RoomSearched.transform.position, transform.position) < 3f)
+            if (Vector2.Distance(RoomSearched.transform.position, transform.position) < 10f)
             {
                 if (RoomSearched.getRoomSlot().isEmpty())
                 {
                     //To changed from one room to another
-                    if(currentRoom != null)
+                    if (currentRoom != null)
                     {
                         currentRoom.getRoomSlot().SetRoom(null);
                     }
@@ -77,10 +78,11 @@ public class Dialogue_Starter_Character : InterractableObject
                     return;
                 }
             }
-            
+
         }
         transform.position = _originalPosition;
     }
+
     public void UpdateOriginalPosition(Vector2 position)
     {
         _originalPosition = position;

@@ -14,3 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Character_01
   prefabCharacter: {fileID: 5368280291662192096, guid: 7e1dc682d51fd1f46a77e2aca9117f85, type: 3}
+  expressionData:
+  - expressionType: 0
+    sprite: {fileID: 21300000, guid: 58f0e1250cb887944849ed5208d52167, type: 3}
+  - expressionType: 1
+    sprite: {fileID: 21300000, guid: 4a84476c29994834b818093dc8a9ef02, type: 3}
+  - expressionType: 2
+    sprite: {fileID: 21300000, guid: 81d64acbc37229344b935b606dc0bec2, type: 3}
+  - expressionType: 3
+    sprite: {fileID: 21300000, guid: ea42cc4bf66b67842adb22b4be62e06d, type: 3}

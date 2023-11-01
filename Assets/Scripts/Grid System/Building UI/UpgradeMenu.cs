@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UpgradeMenu : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UpgradeMenu : MonoBehaviour
     [SerializeField] private Transform FormatUI;
     [SerializeField] private Transform UpgradeContainer;
 
+    [SerializeField] private Color disabledColor;
     public void Awake()
     {
         SetDisplay(true);
@@ -20,9 +22,13 @@ public class UpgradeMenu : MonoBehaviour
             currentRoomBuilding.SetFurnitureSO(furniture);
             FurnitureUI.gameObject.SetActive(true);
         }
+        
     }
+    
+
     public void SetDisplay(bool input)
     {
         UpgradeUI.gameObject.SetActive(input);
     }
+    
 }

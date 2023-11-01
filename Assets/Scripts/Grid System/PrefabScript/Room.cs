@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+[System.Serializable]
 public class Room : MonoBehaviour
 {
     [SerializeField] private BuildingSO buildingSO;
     [SerializeField] private BrokenIndicator brokenIndicator;
     [SerializeField] private RoomSlot roomSlot;
+
     private string room_Index;
     
     public BuildingSO GetBuildingSO()

@@ -16,11 +16,11 @@ public class InterractableObject : MonoBehaviour, IInteractable
     {
         if (canInterract)
         {
-            Debug.Log("Interracted!");
+            //Debug.Log("Interracted!");
         }
         else
         {
-            Debug.Log("Cannot Interracted!");
+            //Debug.Log("Cannot Interracted!");
         }
     }
     public virtual void ExitInterracted()
@@ -41,13 +41,13 @@ public class InterractableObject : MonoBehaviour, IInteractable
     }
     public virtual void OnHoverEnter()
     {
-        Debug.Log("Hovering");
+        //Debug.Log("Hovering");
         InterractedIndicator.gameObject.SetActive(true);
     }
 
     public virtual void OnHoverExit()
     {
-        Debug.Log("Exit");
+        //Debug.Log("Exit");
         InterractedIndicator.gameObject.SetActive(false);
     }
 }

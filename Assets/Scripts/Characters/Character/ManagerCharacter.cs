@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ManagerCharacter : MonoBehaviour
+{
+    [SerializeField] private Transform defaultPosition;
+    public static ManagerCharacter instance;
+    public void Awake()
+    {
+        if(instance != null) return; 
+        instance = this;
+    }
+    public IEnumerator IEnumeratorAction(InterractableObject action)
+    {
+        if(action is BrokenIndicator)
+        {
+            BrokenIndicator brokenIndicator = action as BrokenIndicator;
+            transform.position = brokenIndicator.repairingPosition.position;
+            
+            yield return new WaitForSeconds(3f);
+            StopAction();
+        }
+        if(action is Cleaning)
+        {
+            Cleaning cleaning = action as Cleaning;
+            transform.position = new Vector2(cleaning.cleaningPosition.position.x, transform.position.y);
+            yield return new WaitForSeconds(cleaning._durationCleaning);
+            StopAction();
+        }
+        
+    }
+    public void DoAction(InterractableObject action)
+    {
+        StartCoroutine(IEnumeratorAction(action));
+        Debug.Log("Character Position: " + transform.position);
+        Debug.Log("Busy : " + IsBusy());
+    }
+    public void StopAction()
+    {
+        StopAllCoroutines();
+        transform.position = defaultPosition.position;
+    }
+    //Check if position is not equal to default position, meaning it is busy
+    public bool IsBusy()
+    {
+        return transform.position != defaultPosition.position;
+    }
+    public void SetPosition(Transform position)
+    {
+        this.defaultPosition = position;
+        transform.position = position.position;
+    }
+}
