@@ -67,7 +67,8 @@ public class DialogueState : StateDefault
         base.EnterState();
         Enabled = true;
         TimeManager.instance.Pause();
-        if(GameManager.instance.gameStatus == GameManager.TypeOfGameStatus.Debt 
+        TimeManager.instance.StopBackgroundChange();
+        if (GameManager.instance.gameStatus == GameManager.TypeOfGameStatus.Debt 
             || GameManager.instance.gameStatus == GameManager.TypeOfGameStatus.NoMoney)
         {
             TimeManager.instance.Pause();
@@ -114,6 +115,7 @@ public class DialogueState : StateDefault
             NormalState.instance.EnterState();
         }
         TimeManager.instance.NormalSpeed();
+        TimeManager.instance.StartBackgroundChange();
         EndDialogue?.Invoke();
     }
 

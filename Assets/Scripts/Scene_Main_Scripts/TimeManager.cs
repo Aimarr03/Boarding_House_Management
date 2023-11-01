@@ -30,6 +30,9 @@ public class TimeManager : MonoBehaviour, IDataPersistance
     private float normalSpeed;
     private float doubleSpeed;
 
+    private bool shouldLoopBackgroundChange;
+    private bool isMorning;
+
     private int NegativeMoneyDuration;
     public bool pauseTime;
     public TimeState currentTimeState;
@@ -54,11 +57,31 @@ public class TimeManager : MonoBehaviour, IDataPersistance
         currentTime = maxTime;
         triggerAddLine = 0;
         NegativeMoneyDuration = 0;
+        shouldLoopBackgroundChange = true;
+        isMorning = true;
         DisplayDate();
     }
     void Start()
     {
         StartCoroutine(ChangeBackgroundColor());
+    }
+    public void StartBackgroundChange()
+    {
+        shouldLoopBackgroundChange = true;
+        StartCoroutine(ChangeBackgroundColor());
+        if (isMorning)
+        {
+            currentTime = maxTime;
+        }
+        else
+        {
+            currentTime = maxTime / 2;
+        }
+    }
+    public void StopBackgroundChange()
+    {
+        shouldLoopBackgroundChange = false;
+        StopAllCoroutines();
     }
     // Update is called once per frame
     void Update()
@@ -159,6 +182,7 @@ public class TimeManager : MonoBehaviour, IDataPersistance
         pauseTime = true;
         TimeChanged?.Invoke(TimeState.pause);
         currentTimeState = TimeState.pause;
+        StopBackgroundChange();
     }
     public void NormalSpeed()
     {
@@ -166,6 +190,7 @@ public class TimeManager : MonoBehaviour, IDataPersistance
         currentSpeed = normalSpeed;
         TimeChanged?.Invoke(TimeState.normal);
         currentTimeState = TimeState.normal;
+        StartBackgroundChange();
     }
     public void FasterSpeed()
     {
@@ -190,12 +215,38 @@ public class TimeManager : MonoBehaviour, IDataPersistance
 
     private IEnumerator ChangeBackgroundColor()
     {
-        while (true)
+        while (shouldLoopBackgroundChange)
         {
-            yield return new WaitForSeconds(maxTime * 0.2f);
-            yield return LerpColor(morningColor, nightColor, maxTime  * 0.2f );
-            yield return new WaitForSeconds(maxTime * 0.3f);
-            yield return LerpColor(nightColor, morningColor, maxTime  *  0.3f);
+            if(backgroundSpriteRenderer.color != morningColor && backgroundSpriteRenderer.color != nightColor)
+            {
+                if (isMorning)
+                {
+                    yield return new WaitForSeconds(maxTime * 0.3f);
+                    yield return LerpColor(backgroundSpriteRenderer.color, nightColor, maxTime * 0.2f);
+                    isMorning = false;
+                }
+                else
+                {
+                    yield return new WaitForSeconds(maxTime * 0.3f);
+                    yield return LerpColor(backgroundSpriteRenderer.color, morningColor, maxTime * 0.2f);
+                    isMorning = true;
+                }
+            }
+            else
+            {
+                if (isMorning)
+                {
+                    yield return new WaitForSeconds(maxTime * 0.3f);
+                    yield return LerpColor(morningColor, nightColor, maxTime * 0.2f);
+                    isMorning = false;
+                }
+                else
+                {
+                    yield return new WaitForSeconds(maxTime * 0.3f);
+                    yield return LerpColor(nightColor, morningColor, maxTime * 0.2f);
+                    isMorning = true;
+                }
+            }
         }
     }
 
@@ -204,11 +255,12 @@ public class TimeManager : MonoBehaviour, IDataPersistance
         float time = 0;
         while (time < duration)
         {
+            if (!shouldLoopBackgroundChange) break;
             time += Time.deltaTime;
             backgroundSpriteRenderer02.color = Color.Lerp(startColor, targetColor, time / duration);
             backgroundSpriteRenderer.color = Color.Lerp(startColor, targetColor, time / duration);
             yield return null;
         }
-        backgroundSpriteRenderer.color = targetColor;
     }
+
 }

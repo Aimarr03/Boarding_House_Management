@@ -48,7 +48,7 @@ public class DataPersistanceManager : MonoBehaviour
     }
     public void OnSceneUnloaded(Scene scene)
     {
-
+        SaveGame();
     }
 
     private List<IDataPersistance> GetListDataPersistance()

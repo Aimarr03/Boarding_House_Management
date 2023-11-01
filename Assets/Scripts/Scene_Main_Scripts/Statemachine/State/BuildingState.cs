@@ -56,6 +56,7 @@ public class BuildingState : StateDefault, IDataPersistance
     {
         base.EnterState();
         TimeManager.instance.Pause();
+        TimeManager.instance.StopBackgroundChange();
         mainOption.BuildingContainer.gameObject.SetActive(true);
         mainOption.DisplayOption(0);
         CheckBuildableVisual();
@@ -67,6 +68,7 @@ public class BuildingState : StateDefault, IDataPersistance
     {
         base.ExitState();
         TimeManager.instance.NormalSpeed();
+        TimeManager.instance.StartBackgroundChange();
         mainOption.BuildingContainer.gameObject.SetActive(false);
         SetVisualGrid(false);
         Enabled = false;

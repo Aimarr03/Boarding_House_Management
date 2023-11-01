@@ -98,12 +98,14 @@ public class GameManager : MonoBehaviour, IDataPersistance
     {
         GameIsPaused = true;
         TimeManager.instance.Pause();
+        TimeManager.instance.StopBackgroundChange();
         PauseUI.gameObject.SetActive(true);
     }
     public void ResumeGame()
     {
         GameIsPaused = false;
         TimeManager.instance.NormalSpeed();
+        TimeManager.instance.StartBackgroundChange();
         PauseUI.gameObject.SetActive(false);
     }
 
