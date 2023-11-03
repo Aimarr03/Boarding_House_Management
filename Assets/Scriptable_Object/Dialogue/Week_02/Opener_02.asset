@@ -20,16 +20,16 @@ MonoBehaviour:
     expressionType: 0
     position: 1
     lines:
-    - So...
-    - I assume you have the money right?
-    - I expect 2000 gold right now
-    - Now.. Tell me you have it
+    - Oi...
+    - Gw akan asumsi uangnya udah ada
+    - Sudah gw bilang gw minta 2000
+    - Sekarang mana uang gw?
     choice:
       optionsToChoose: []
       dialogueTree:
       - {fileID: 11400000, guid: edfb50e2431a762468a10d086455fec8, type: 2}
       - {fileID: 11400000, guid: d541de31ad643b44eba98df823bb157c, type: 2}
   ConversationDone: 0
-  conversationType: 0
-  Cost: 10000
+  conversationType: 1
+  Cost: 2000
   nextConversation: {fileID: 0}

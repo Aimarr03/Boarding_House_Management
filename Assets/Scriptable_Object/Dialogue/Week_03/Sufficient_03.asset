@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
   m_Name: Sufficient_03
   m_EditorClassIdentifier: 
+  DialogueName: 
   charactersInvolved:
   - {fileID: 11400000, guid: f86312702380b2d4895971863c5b3909, type: 2}
   - {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
@@ -20,8 +21,8 @@ MonoBehaviour:
     expressionType: 0
     position: 0
     lines:
-    - Yes..
-    - Yes I do...
+    - Yaa...
+    - Ini uangnyaa
     choice:
       optionsToChoose: []
       dialogueTree: []
@@ -29,10 +30,10 @@ MonoBehaviour:
     expressionType: 1
     position: 1
     lines:
-    - Well... well... well..
-    - Good job..
-    - And now.. your debt has been lifted..
-    - You may have your life back
+    - Hmm... hmm..
+    - Mantap...
+    - Dan sekarang utang lu udah memadai..
+    - Lu boleh ambil kos lu sesuai keinginan lu
     choice:
       optionsToChoose: []
       dialogueTree: []
@@ -40,12 +41,12 @@ MonoBehaviour:
     expressionType: 1
     position: 1
     lines:
-    - Thanks...
-    - I suppose...
+    - Okay...
+    - Makasih...
     choice:
       optionsToChoose: []
       dialogueTree: []
   ConversationDone: 0
-  conversationType: 1
-  Cost: 20000
+  conversationType: 2
+  Cost: 5000
   nextConversation: {fileID: 0}

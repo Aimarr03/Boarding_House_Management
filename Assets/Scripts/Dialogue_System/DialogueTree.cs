@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="new Conversation", menuName ="Create new Conversation" )]
+[CreateAssetMenu(fileName ="new Conversation", menuName ="Create new Dialogue Tree" )]
 public class DialogueTree: ScriptableObject
 {
     public string DialogueName;
@@ -13,11 +13,13 @@ public class DialogueTree: ScriptableObject
     public DialogueTree nextConversation;
     public enum ConversationType
     {
+        Opening,
         taxOpener,
         tax,
         Lose,
         normal,
         repair,
+        tutorial,
         GameOver
     }
     [System.Serializable]

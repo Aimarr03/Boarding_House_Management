@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
     public bool GameIsPaused;
     public List<CustomDictionary> TypeOfDialogue;
     public TypeOfGameStatus gameStatus;
+
     [SerializeField] private GameObject blackScreen;
     [SerializeField] private CanvasGroup headerGroup;
     [SerializeField] private Transform PauseUI;
@@ -22,7 +23,13 @@ public class GameManager : MonoBehaviour, IDataPersistance
         public TypeOfGameStatus typeOfGameStatus;
         public DialogueTree dialogueTree;
     }
-
+    public void Start()
+    {
+        if(gameStatus == TypeOfGameStatus.NoMoney || gameStatus == TypeOfGameStatus.Debt)
+        {
+            StartCoroutine(FadeTo(20f,  5f));
+        }
+    }
     public DialogueTree GetDialogueTree(TypeOfGameStatus typeOfGameStatus)
     {
         foreach(CustomDictionary customDictionary in TypeOfDialogue)
@@ -80,7 +87,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
             blackScreenImage.color = newColor;
             yield return null;
         }
-        yield return new WaitForSeconds(1f);
+        Debug.Log(GetDialogueTree(gameStatus));
         DialogueState.instance.SetDialogue(GetDialogueTree(gameStatus));
     }
     public void ChangingScene(int input)

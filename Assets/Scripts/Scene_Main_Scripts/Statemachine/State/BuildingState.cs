@@ -46,11 +46,7 @@ public class BuildingState : StateDefault, IDataPersistance
             }
         }
         SetVisualGrid(false);
-    }
-    public void Start()
-    {
         BuildRoom(0, 0, _guestRoomSO);
-        
     }
     public override void EnterState()
     {
@@ -98,8 +94,9 @@ public class BuildingState : StateDefault, IDataPersistance
         {
             Debug.Log("Alternative Clicked!");
             _grid.GetXY(MousePositionVector3, out int x, out int y);
+            Debug.Log("There is no above room: "+!CheckAbove(x, y));
+            if (!CheckAbove(x,y)) SellRoom(x, y); 
             building = null;
-            if(!CheckAbove(x,y)) SellRoom(x, y); 
         }
     }
     //Check if the lower floor is already built 
@@ -340,6 +337,8 @@ public class BuildingState : StateDefault, IDataPersistance
                     _grid.GetMiddleWorldPosition(roomData.x_axis, roomData.y_axis), Quaternion.identity);
                 _grid.GetValue(roomData.x_axis, roomData.y_axis).SetBuilding(buildingInstantiated);
                 buildingInstantiated.gameObject.TryGetComponent<Room>(out Room room);
+                SpriteRenderer spriteRenderer = buildingInstantiated.GetChild(2).GetComponent<SpriteRenderer>();
+                spriteRenderer.sprite = currentBuildingSO.roomType[roomData.x_axis];
                 Debug.Log(room.GetRoomIndex());
                 if(roomData.roomName != "")
                 {

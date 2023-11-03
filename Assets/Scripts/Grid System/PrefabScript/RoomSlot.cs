@@ -74,6 +74,7 @@ public class RoomSlot : MonoBehaviour
     {
         if (character == null)
         {
+            Debug.Log(room.GetRoomIndex() + "is empty now");
             this.character = null;
             return;
         }
@@ -82,6 +83,7 @@ public class RoomSlot : MonoBehaviour
         character.SetTargetPosition(roomSlot.position);
         character.GetCharacterInterraction().UpdateOriginalPosition(roomSlot.position);
         character.SetRoomSlot(this);
+        character.GetCharacterInterraction().SetCurrentRoom(room);
         this.character = character;
         QueueManager.instance.RemoveFromLine(character);
         character.ChangeMood(Character.MoodIndicator.Normal);

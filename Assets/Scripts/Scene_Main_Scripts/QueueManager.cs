@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QueueManager : MonoBehaviour
+public class QueueManager : MonoBehaviour, IDataPersistance
 {
     public static QueueManager instance;
     [SerializeField] private List<CharacterSO> ListCharacter;
@@ -10,9 +11,13 @@ public class QueueManager : MonoBehaviour
     [SerializeField] private List<Character> WaitingCharacter;
     [SerializeField] private List<Character> AngryCustomer;
     public Transform InstantiatePoint;
-    
+
+    public DialogueTree TutorialDialogueTree;
+    public Action<DialogueTree> TutorialQueue;
+
     public int defaultDuration;
-    
+    private bool DoneTutorial;
+
     private int normalDuration;
     private int slowDuration;
     private int fastDuration;
@@ -82,10 +87,15 @@ public class QueueManager : MonoBehaviour
     }
     public void AddNewLine()
     {
+        if (!DoneTutorial)
+        {
+            DialogueState.instance.SetDialogue(TutorialDialogueTree);
+            DoneTutorial = true;
+        }
         Debug.Log("Empty Room: "+ !EconomyManager.instance.CheckRoomEmpty());
         if (!EconomyManager.instance.CheckRoomEmpty()) return;
         if (_waitingQueue.CharacterWaiting.Count > _waitingQueue._childWaitingQueue.Count-1) return;
-        int randomIndex = Random.Range(0, ListCharacter.Count);
+        int randomIndex = UnityEngine.Random.Range(0, ListCharacter.Count);
         GameObject newCharacter = Instantiate(ListCharacter[randomIndex].prefabCharacter);
         newCharacter.gameObject.transform.position = InstantiatePoint.position;
 
@@ -137,5 +147,14 @@ public class QueueManager : MonoBehaviour
             }
         }
     }
-    
+
+    public void LoadScene(GameData gameData)
+    {
+        DoneTutorial = gameData.doneTutorial;
+    }
+
+    public void SaveScene(ref GameData gameData)
+    {
+        gameData.doneTutorial = DoneTutorial;
+    }
 }

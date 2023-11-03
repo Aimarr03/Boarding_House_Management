@@ -1,11 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System.Data;
 using System;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 
 public class DataPersistanceManager : MonoBehaviour
 {
@@ -44,7 +41,7 @@ public class DataPersistanceManager : MonoBehaviour
         ListDataPersistance = GetListDataPersistance();
         LoadGame();
     }
-
+    
     private List<IDataPersistance> GetListDataPersistance()
     {
         IEnumerable<IDataPersistance> ListDataPersistance = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistance>();

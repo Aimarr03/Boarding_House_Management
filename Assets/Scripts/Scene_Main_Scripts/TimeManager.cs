@@ -24,6 +24,7 @@ public class TimeManager : MonoBehaviour, IDataPersistance
     private float currentTime;
     private int month;
     private int date;
+    private int rawDate;
     private int probability;
 
     private float currentSpeed;
@@ -68,6 +69,7 @@ public class TimeManager : MonoBehaviour, IDataPersistance
     public void StartBackgroundChange()
     {
         shouldLoopBackgroundChange = true;
+        StopAllCoroutines();
         StartCoroutine(ChangeBackgroundColor());
         if (isMorning)
         {
@@ -93,21 +95,17 @@ public class TimeManager : MonoBehaviour, IDataPersistance
     {
         date++;
         triggerAddLine++;
-        if(date == 30)
+        if(date == 29)
         {
-            month++;
             date = 1;
-        }
-        if(date % 14 == 0)
-        {
-            ChangeSection?.Invoke();
+            month++;
         }
         DisplayDate();
-        if (CheckProbability(date % 14))
+        if (CheckProbability(6))
         {
             RandomEventOccur();
         }
-        if(CheckProbability(date % 16))
+        if(CheckProbability(8))
         {
             AltRandomEventOccur();
         }
@@ -138,6 +136,11 @@ public class TimeManager : MonoBehaviour, IDataPersistance
         QueueManager.instance.CheckAngryCustomer();
 
         ChangeDate?.Invoke();
+        if(date % 14 == 0 && date > 1)
+        {
+            Debug.Log("Preman On The Move");
+            ChangeSection?.Invoke();
+        }
     }
     private void DayCountDown()
     {
@@ -153,15 +156,15 @@ public class TimeManager : MonoBehaviour, IDataPersistance
     }
     private bool CheckProbability(int input)
     {
-        float baseProbability = 0.6f;
-        if(input != 0)
+        float RandomProbability = UnityEngine.Random.Range(0f, 1f);
+        float baseProbability = 1f / (float)input;
+        if(RandomProbability < baseProbability)
         {
-            baseProbability = baseProbability * input;
-            return UnityEngine.Random.value < baseProbability;
+            return true;
         }
         else
         {
-            return true;
+            return false;
         }
     }
     public void RandomEventOccur()
@@ -217,18 +220,20 @@ public class TimeManager : MonoBehaviour, IDataPersistance
     {
         while (shouldLoopBackgroundChange)
         {
+            float changeTime = currentTimeState != TimeState.fast ? maxTime : maxTime / 2;
+            Debug.Log("Timestate is fast = " + (currentTimeState == TimeState.fast));
             if(backgroundSpriteRenderer.color != morningColor && backgroundSpriteRenderer.color != nightColor)
             {
                 if (isMorning)
                 {
-                    yield return new WaitForSeconds(maxTime * 0.3f);
-                    yield return LerpColor(backgroundSpriteRenderer.color, nightColor, maxTime * 0.2f);
+                    yield return new WaitForSeconds(changeTime * 0.3f);
+                    yield return LerpColor(backgroundSpriteRenderer.color, nightColor, changeTime * 0.2f);
                     isMorning = false;
                 }
                 else
                 {
-                    yield return new WaitForSeconds(maxTime * 0.3f);
-                    yield return LerpColor(backgroundSpriteRenderer.color, morningColor, maxTime * 0.2f);
+                    yield return new WaitForSeconds(changeTime * 0.3f);
+                    yield return LerpColor(backgroundSpriteRenderer.color, morningColor, changeTime * 0.2f);
                     isMorning = true;
                 }
             }
@@ -236,14 +241,14 @@ public class TimeManager : MonoBehaviour, IDataPersistance
             {
                 if (isMorning)
                 {
-                    yield return new WaitForSeconds(maxTime * 0.3f);
-                    yield return LerpColor(morningColor, nightColor, maxTime * 0.2f);
+                    yield return new WaitForSeconds(changeTime * 0.3f);
+                    yield return LerpColor(morningColor, nightColor, changeTime * 0.2f);
                     isMorning = false;
                 }
                 else
                 {
-                    yield return new WaitForSeconds(maxTime * 0.3f);
-                    yield return LerpColor(nightColor, morningColor, maxTime * 0.2f);
+                    yield return new WaitForSeconds(changeTime * 0.3f);
+                    yield return LerpColor(nightColor, morningColor, changeTime * 0.2f);
                     isMorning = true;
                 }
             }

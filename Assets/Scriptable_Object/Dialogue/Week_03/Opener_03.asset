@@ -21,15 +21,15 @@ MonoBehaviour:
     expressionType: 0
     position: 1
     lines:
-    - 'So... '
-    - I assume you have the money
-    - 4000, I assume...
+    - Baiklah
+    - Uangnya gw harap sudah ada
+    - 5000 gw mana?
     choice:
       optionsToChoose: []
       dialogueTree:
       - {fileID: 11400000, guid: 9905d5ce54005ab4996cd8394dbcc04a, type: 2}
       - {fileID: 11400000, guid: 2dfade6c8f113014c99dfc4d6b91c1fc, type: 2}
   ConversationDone: 0
-  conversationType: 0
-  Cost: 20000
+  conversationType: 1
+  Cost: 5000
   nextConversation: {fileID: 0}

@@ -20,13 +20,14 @@ MonoBehaviour:
     position: 1
     lines:
     - Oi...
-    - You have the money
+    - Uang Gua!
+    - Gua harap kau punya 1200 uang untuk membayar utang mu ke Gua
     choice:
       optionsToChoose: []
       dialogueTree:
       - {fileID: 11400000, guid: 0d90a1668a43469459510025f3a164ea, type: 2}
       - {fileID: 11400000, guid: a31ab5e4ab2d363428a0217a465336cf, type: 2}
   ConversationDone: 0
-  conversationType: 0
+  conversationType: 1
   Cost: 1200
   nextConversation: {fileID: 0}

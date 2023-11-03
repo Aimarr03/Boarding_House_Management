@@ -25,6 +25,7 @@ public class ManagerCharacter : MonoBehaviour
         }
         if(action is Cleaning)
         {
+            animator.SetBool("IsCleaning", true);
             Cleaning cleaning = action as Cleaning;
             transform.position = new Vector2(cleaning.cleaningPosition.position.x, transform.position.y);
             yield return new WaitForSeconds(cleaning._durationCleaning);

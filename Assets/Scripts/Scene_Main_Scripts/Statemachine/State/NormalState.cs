@@ -57,6 +57,7 @@ public class NormalState : StateDefault
         {
             if (_currentInterractedObject != null && _currentInterractedObject.GetInterractState())
             {
+                if (ManagerCharacter.instance.IsBusy()) return;
                 interacting = true;
                 _currentInterractedObject.Interracted();
             }
@@ -66,6 +67,7 @@ public class NormalState : StateDefault
         {
             if (_currentInterractedObject is Cleaning)
             {
+                
                 Cleaning CurrentInteractedObject = _currentInterractedObject as Cleaning;
                 CurrentInteractedObject.ResetDuration();
             }
@@ -77,11 +79,13 @@ public class NormalState : StateDefault
         }
         if(Input.GetMouseButtonDown(1) && _currentInterractedObject != null)
         {
+            /*
             if(_currentInterractedObject is Dialogue_Starter_Character)
             {
                 Dialogue_Starter_Character currentInterractedCharacter = _currentInterractedObject as Dialogue_Starter_Character;
                 currentInterractedCharacter.ToggleOccupied();
             }
+            */
         }
     }
     void SetCurrentInterractableObject(InterractableObject _InterractableObject)

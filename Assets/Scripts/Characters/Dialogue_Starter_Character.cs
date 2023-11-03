@@ -22,7 +22,7 @@ public class Dialogue_Starter_Character : InterractableObject
     }
     public override void HoldInterraction()
     {
-        if (!_isDragging || occupied) return;
+        if (!_isDragging) return;
         transform.position = GetMousePosition() - _offset;
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hitInfo = Physics2D.Raycast(mousePosition, Vector2.zero, 100f, interractedLayer);
@@ -72,9 +72,8 @@ public class Dialogue_Starter_Character : InterractableObject
                         currentRoom.getRoomSlot().SetRoom(null);
                     }
                     currentRoom = RoomSearched;
-                    Transform currentRoomSlot = RoomSearched.getRoomSlot().GetTransformRoomSlot();
                     RoomSearched.getRoomSlot().SetRoom(gameObject.GetComponent<Character>());
-                    occupied = true;
+                    Debug.Log("Room is set");
                     return;
                 }
             }
@@ -94,5 +93,9 @@ public class Dialogue_Starter_Character : InterractableObject
     public void ToggleOccupied()
     {
         occupied = !occupied;
+    }
+    public void SetCurrentRoom(Room room)
+    {
+        this.currentRoom = room;
     }
 }

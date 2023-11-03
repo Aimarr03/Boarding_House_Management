@@ -18,11 +18,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
   entireConversation:
   - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
-    expressionType: 0
+    expressionType: 2
     position: 0
     lines:
-    - I..
-    - Can we do it next week?
+    - Aku...
+    - Boleh minggu depan enggak?
     choice:
       optionsToChoose: []
       dialogueTree: []
@@ -30,15 +30,15 @@ MonoBehaviour:
     expressionType: 0
     position: 0
     lines:
-    - 'A pity.. '
-    - So... as per out agreement..
-    - I will shut thid place down.. no buts
-    - No..
-    - BUTS..
+    - Ck ck ck...
+    - Enggak bisa brooo
+    - Ini kos akan gw ambil...
+    - Selamat hidup kau dasar sengsara
+    - Kasihan kasihaann...
     choice:
       optionsToChoose: []
       dialogueTree: []
   ConversationDone: 0
-  conversationType: 2
+  conversationType: 3
   Cost: 0
   nextConversation: {fileID: 0}

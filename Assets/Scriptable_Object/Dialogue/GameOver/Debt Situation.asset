@@ -12,19 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
   m_Name: Debt Situation
   m_EditorClassIdentifier: 
+  DialogueName: 
   charactersInvolved: []
   entireConversation:
   - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
     expressionType: 2
     position: 0
     lines:
-    - "I didn't have the money\t"
-    - So the boss took down the place
-    - Because I can't keep my promise
+    - Uang ku tidak cukup memadai
+    - Sehingga preman tersebut mengambil kos aku
+    - Karena aku tidak bisa mempertahankan janji nya
     choice:
       optionsToChoose: []
       dialogueTree: []
   ConversationDone: 0
-  conversationType: 5
+  conversationType: 7
   Cost: 0
   nextConversation: {fileID: 0}

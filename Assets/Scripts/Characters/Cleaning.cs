@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Cleaning : InterractableObject, IHasProgress
 {
-    private bool DoneCleaning = false;
+    private bool DoneCleaning;
     public float _durationCleaning;
     public Transform cleaningPosition;
     private float currentTimeCleaning;
@@ -17,9 +17,11 @@ public class Cleaning : InterractableObject, IHasProgress
     public event Action<float> progressOccur;
     public event Action<bool> HoldingOccured;
     private bool isHolding;
-    public void Start()
+    public override void Awake()
     {
+        base.Awake();
         isHolding = false;
+        DoneCleaning = false;
         DirtyIndicator.gameObject.SetActive(true);
     }
     public override void HoldInterraction()
@@ -29,8 +31,7 @@ public class Cleaning : InterractableObject, IHasProgress
         if(DoneCleaning)
         {
             return;
-        }
-        if (ManagerCharacter.instance.IsBusy()) return;  
+        } 
         ManagerCharacter.instance.DoAction(this);
         isHolding = true;
         currentTimeCleaning += Time.deltaTime;
@@ -47,6 +48,7 @@ public class Cleaning : InterractableObject, IHasProgress
     }
     public void SetDirtyIndicator(bool input)
     {
+        DoneCleaning = input;
         DirtyIndicator.gameObject.SetActive(!input);
     }
     public void ResetDuration()

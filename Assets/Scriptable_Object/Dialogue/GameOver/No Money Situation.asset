@@ -12,20 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
   m_Name: No Money Situation
   m_EditorClassIdentifier: 
+  DialogueName: 
   charactersInvolved: []
   entireConversation:
   - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
     expressionType: 2
     position: 0
     lines:
-    - i have no money
-    - So the company have to take the house
-    - in order to the money I had
-    - So yeah....
+    - Aku tidak punya uang lagi
+    - Bahkan aku harus ngutang
+    - Sehingga aku harus menjual kos aku untuk hutang baru yang aku buat
+    - 'Jadii.. '
+    - Ya.. Begitu...
     choice:
       optionsToChoose: []
       dialogueTree: []
   ConversationDone: 0
-  conversationType: 5
+  conversationType: 7
   Cost: 0
   nextConversation: {fileID: 0}

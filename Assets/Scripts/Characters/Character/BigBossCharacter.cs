@@ -22,6 +22,7 @@ public class BigBossCharacter : MonoBehaviour, IDataPersistance
         transform.position = SourcePoint.position;
         TowardsDestination = true;
         indexWaiting = 0;
+        isMoving = false;
         bigBoss.setInterract(false);
         bigBoss.SetCanDialogue(false);
         defaultSpeed = speed;
@@ -85,6 +86,7 @@ public class BigBossCharacter : MonoBehaviour, IDataPersistance
     private void Instance_ChangeDate()
     {
         indexWaiting++;
+        if (bigBoss.GetDialogueTree() == null) return;
         if (!isMoving)
         {
             if (Vector2.Distance(transform.position, DestinationPoint.position) < 3f)
@@ -109,9 +111,13 @@ public class BigBossCharacter : MonoBehaviour, IDataPersistance
     private void Instance_ChangeSection()
     {
         if (GameManager.instance.gameStatus == GameManager.TypeOfGameStatus.Win) return;
+        if (bigBoss.GetDialogueTree() == null) return;
         isMoving = true;
-        bigBoss.setInterract(true);
-        bigBoss.SetCanDialogue(true);
+        Transform targetPoint = TowardsDestination ? DestinationPoint : SourcePoint;
+        if(targetPoint.position == DestinationPoint.position)
+        {
+            transform.position = targetPoint.position;
+        }
         transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
     }
 

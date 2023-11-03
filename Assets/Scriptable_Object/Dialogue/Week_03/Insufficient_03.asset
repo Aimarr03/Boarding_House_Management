@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
   m_Name: Insufficient_03
   m_EditorClassIdentifier: 
+  DialogueName: 
   charactersInvolved:
   - {fileID: 11400000, guid: f86312702380b2d4895971863c5b3909, type: 2}
   - {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
@@ -20,7 +21,8 @@ MonoBehaviour:
     expressionType: 2
     position: 0
     lines:
-    - I don't have the money...
+    - Aku....
+    - Belum memiliki uang yang cukup
     choice:
       optionsToChoose: []
       dialogueTree: []
@@ -28,12 +30,14 @@ MonoBehaviour:
     expressionType: 0
     position: 1
     lines:
-    - Hmm...
-    - Well.. I shall shut this down
+    - Heh...
+    - Yasudah kalau gitu...
+    - Ucapkan selamat tinggal ke kos lu
+    - Da daaa
     choice:
       optionsToChoose: []
       dialogueTree: []
   ConversationDone: 0
-  conversationType: 2
+  conversationType: 3
   Cost: 0
   nextConversation: {fileID: 0}

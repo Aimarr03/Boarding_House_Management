@@ -16,6 +16,9 @@ public class GameData
 
     public int room_index;
 
+    public bool newGame;
+    public bool doneTutorial;
+
     public List<RoomData> roomDatas;
     public List<FurnitureData> furnituresData;
     public GameState gameState;
@@ -76,5 +79,8 @@ public class GameData
         furnituresData = new List<FurnitureData>();
         gameState = new GameState();
         room_index = 0;
+
+        newGame = true;
+        doneTutorial = false;
     }
 }

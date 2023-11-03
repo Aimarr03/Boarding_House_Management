@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DialogueState : StateDefault
+public class DialogueState : StateDefault, IDataPersistance
 {
 
     [SerializeField] TextMeshProUGUI dialogueContent;
@@ -20,6 +20,10 @@ public class DialogueState : StateDefault
     [SerializeField] List<Transform> CharacterPosition;
 
     [SerializeField] private Transform Arrow;
+    
+    //For Loading Function
+    public DialogueTree starterDialogueTree;
+    private bool StarterState;
 
     private DialogueTree currentStory;
     public InitialDialogueTree initialDialogueTree;
@@ -49,6 +53,7 @@ public class DialogueState : StateDefault
         conversationIndex = 0;
         lineIndex = 0;
         Arrow.gameObject.SetActive(false);
+        StarterState = false;
     }
     public void OnDestroy()
     {
@@ -86,6 +91,7 @@ public class DialogueState : StateDefault
             {
                 EconomyManager.instance.UseMoney(currentStory.Cost);
                 BoughtMoney?.Invoke();
+                EndDialogue?.Invoke();
             }
             if(currentStory.nextConversation == null)
             {
@@ -97,10 +103,16 @@ public class DialogueState : StateDefault
         {
             GameManager.instance.SetGameStatus(GameManager.TypeOfGameStatus.Debt);
             initialDialogueTree.dialogueTree = GameManager.instance.GetDialogueTree(GameManager.TypeOfGameStatus.Debt);
+            EndDialogue?.Invoke();
         }
         if(currentStory.conversationType == DialogueTree.ConversationType.GameOver)
         {
             GameManager.instance.ChangingScene(0);
+            DataPersistanceManager.instance.NewGame();
+        }
+        if(currentStory.conversationType == DialogueTree.ConversationType.Opening)
+        {
+            StarterState = false;
         }
         DialogueUI.gameObject.SetActive(false);
         if(currentCharacter != null)
@@ -116,7 +128,7 @@ public class DialogueState : StateDefault
         }
         TimeManager.instance.NormalSpeed();
         TimeManager.instance.StartBackgroundChange();
-        EndDialogue?.Invoke();
+        
     }
 
     public override void OnClick()
@@ -205,25 +217,18 @@ public class DialogueState : StateDefault
     public void DisplayDetailDialogue()
     {
         CharacterSO currentCharacterSO = currentLineConversation.characterSO;
-        if (currentCharacter != null)
+        personName.text = currentCharacterSO.characterName;
+        Sprite currentSprite = currentCharacterSO.GetSpriteExpression(currentLineConversation.expressionType);
+        if (currentSprite != null)
         {
-            personName.text = currentCharacterSO.characterName;
-            Sprite currentSprite = currentCharacterSO.GetSpriteExpression(currentLineConversation.expressionType);
-            if (currentSprite != null)
-            {
-                personImage.sprite = currentSprite;
-                personImage.color = Color.white;
-            }
-            else
-            {
-                personImage.color = new Color(1, 1, 1, 0);
-            }
+            personImage.sprite = currentSprite;
+            personImage.color = Color.white;
         }
         else
         {
-            personName.text = "";
             personImage.color = new Color(1, 1, 1, 0);
         }
+        
     }
     public void NextLineConversation()
     {
@@ -257,6 +262,7 @@ public class DialogueState : StateDefault
             dialogueContent.text += c;
             yield return new WaitForSeconds(0.05f);
         }
+        Arrow.gameObject.SetActive(true);
     }
     private void DisplayChoice()
     {
@@ -299,5 +305,18 @@ public class DialogueState : StateDefault
             currentCharacter.SetNewDialogue(currentStory.nextConversation);
         }
     }
-    
+
+    public void LoadScene(GameData gameData)
+    {
+        StarterState = gameData.newGame;
+        if (StarterState)
+        {
+            SetDialogue(starterDialogueTree);
+        }
+    }
+
+    public void SaveScene(ref GameData gameData)
+    {
+        gameData.newGame = StarterState;
+    }
 }
