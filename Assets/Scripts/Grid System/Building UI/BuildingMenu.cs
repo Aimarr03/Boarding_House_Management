@@ -40,9 +40,9 @@ public class BuildingMenu : MonoBehaviour
 
     public void UnlockRoom()
     {
-        gameSectionIndex++;
         if(gameSectionIndex < buildingListSO.buildings.Count-1)
         {
+            gameSectionIndex++; 
             currentListSO.Add(buildingListSO.buildings[gameSectionIndex]);
             foreach (Transform buildingUI in RoomBuildingContainer)
             {

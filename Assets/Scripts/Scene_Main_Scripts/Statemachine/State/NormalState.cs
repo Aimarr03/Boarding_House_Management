@@ -60,14 +60,23 @@ public class NormalState : StateDefault
                 if (ManagerCharacter.instance.IsBusy()) return;
                 interacting = true;
                 _currentInterractedObject.Interracted();
+                if(_currentInterractedObject is Cleaning)
+                {
+                    Cleaning currentCleaning = _currentInterractedObject as Cleaning;
+                    if (!currentCleaning.GetCleanStatus())
+                    {
+                        AudioManager.instance.PlaySFX(AudioManager.AudioType.Cleaning);
+                    }
+                }
             }
         }
         
         if (Input.GetMouseButtonUp(0) && _currentInterractedObject != null && _currentInterractedObject.GetInterractState())
         {
+            Debug.Log("Stop");
             if (_currentInterractedObject is Cleaning)
             {
-                
+                Debug.Log("Cleanign Stop");
                 Cleaning CurrentInteractedObject = _currentInterractedObject as Cleaning;
                 CurrentInteractedObject.ResetDuration();
             }

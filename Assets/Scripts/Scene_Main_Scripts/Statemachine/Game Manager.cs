@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour, IDataPersistance
         {
             StartCoroutine(FadeTo(20f,  5f));
         }
+        AudioManager.instance.PlayMusic(AudioManager.AudioType.BGM_Gameplay);
     }
     public DialogueTree GetDialogueTree(TypeOfGameStatus typeOfGameStatus)
     {
@@ -71,6 +72,8 @@ public class GameManager : MonoBehaviour, IDataPersistance
         {
             GameOverStatus = true;
             StartCoroutine(FadeTo(20f, 5f));
+            AudioManager.instance.PlaySFX(AudioManager.AudioType.GameOver);
+            AudioManager.instance.PlayMusic(AudioManager.AudioType.BGM_GameOver);
         }
         gameStatus = input;
     }

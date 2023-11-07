@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class CleanManager : MonoBehaviour, IDataPersistance
     public static CleanManager instance;
     public List<Furniture> furnitures;
     public List<FurnitureSO> furnitureSOs;
+
+    public UpgradeMenu upgradeMenu;
     public void Awake()
     {
         if (instance != null) return;
@@ -29,7 +32,7 @@ public class CleanManager : MonoBehaviour, IDataPersistance
             FurnitureSO furnitureSO = furniture.GetFurnitureSO();
             furnitureData.furnitureName = furnitureSO.furnitureName;
             furnitureData.hasCleaned = furniture.GetCleaning().GetCleanStatus();
-            gameData.furnituresData.Add(furnitureData);
+            gameData.furnituresData.Add(furnitureData);       
         }
     }
 
@@ -38,12 +41,22 @@ public class CleanManager : MonoBehaviour, IDataPersistance
 
         // Load the new data.
         List<GameData.FurnitureData> furnitureData = gameData.furnituresData;
+        List<FurnitureBuildingUI> furnituresUI = upgradeMenu.furnituresBuildingUI;
         foreach (GameData.FurnitureData currentFurnitureData in furnitureData)
         {
             FurnitureSO furnitureSO = GetFurnitureSO(currentFurnitureData.furnitureName);
+            foreach(FurnitureBuildingUI furnitureUI in furnituresUI)
+            {
+                FurnitureSO furnitureUISO = furnitureUI.GetFurnitureSO();
+                if(furnitureUISO.furnitureName == furnitureSO.furnitureName)
+                {
+                    furnitureUI.SetBought(true);
+                }
+            }
             BuildingState.instance.guestRoom.AddedFurniture(furnitureSO);
             Furniture furniture = BuildingState.instance.guestRoom.GetFurniture(furnitureSO);
             furniture.GetCleaning().SetDirtyIndicator(currentFurnitureData.hasCleaned);
+            
         }
     }
 

@@ -39,7 +39,7 @@ public class FurnitureBuildingUI : MonoBehaviour
             SetBought(BuildingState.instance.BuyFurnitue(furnitureSO));
         }
     }
-    private void SetBought(bool input)
+    public void SetBought(bool input)
     {
         bought = input;
         SoldOut.gameObject.SetActive(bought);

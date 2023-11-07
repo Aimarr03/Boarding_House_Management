@@ -58,6 +58,7 @@ public class BuildingState : StateDefault, IDataPersistance
         CheckBuildableVisual();
         Enabled = true;
         NormalState.instance.ExitState();
+        AudioManager.instance.PlaySFX(AudioManager.AudioType.Building_Menu);
     }
 
     public override void ExitState()
@@ -87,7 +88,7 @@ public class BuildingState : StateDefault, IDataPersistance
         {
             _grid.GetXY(MousePositionVector3, out int x, out int y);
             if(CheckBelow(x,y)) BuildRoom(x, y, building);
-            
+            AudioManager.instance.PlaySFX(AudioManager.AudioType.Build);
             //CheckBelow(x, y, building);
         }
         if (Input.GetMouseButtonDown(1))
@@ -95,7 +96,8 @@ public class BuildingState : StateDefault, IDataPersistance
             Debug.Log("Alternative Clicked!");
             _grid.GetXY(MousePositionVector3, out int x, out int y);
             Debug.Log("There is no above room: "+!CheckAbove(x, y));
-            if (!CheckAbove(x,y)) SellRoom(x, y); 
+            if (!CheckAbove(x,y)) SellRoom(x, y);
+            AudioManager.instance.PlaySFX(AudioManager.AudioType.Pay);
             building = null;
         }
     }
@@ -245,6 +247,7 @@ public class BuildingState : StateDefault, IDataPersistance
         {
             guestRoom.AddedFurniture(furniture);
             EconomyManager.instance.UseMoney(furniture.cost);
+            AudioManager.instance.PlaySFX(AudioManager.AudioType.Pay);
             return true;
         }
         else

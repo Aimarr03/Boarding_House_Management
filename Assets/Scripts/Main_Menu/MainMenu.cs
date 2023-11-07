@@ -8,12 +8,16 @@ public class MainMenu : MonoBehaviour
 {
     public List<Button> buttonList;
     public Button loadButton;
+    public Transform CreditPanel;
+
     public void Start()
     {
         if (!DataPersistanceManager.instance.HasGameData())
         {
             loadButton.interactable = false;
         }
+        AudioManager.instance.PlayMusic(AudioManager.AudioType.BGM_MainMenu);
+        CreditPanel.gameObject.SetActive(false);
     }
     public void OnQuit()
     {
@@ -39,5 +43,9 @@ public class MainMenu : MonoBehaviour
         {
             button.interactable = false;
         }
+    }
+    public void ToggleCredit(bool toggle)
+    {
+        CreditPanel.gameObject.SetActive(toggle);
     }
 }

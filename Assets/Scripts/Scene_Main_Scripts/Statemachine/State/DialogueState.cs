@@ -261,6 +261,7 @@ public class DialogueState : StateDefault, IDataPersistance
         {
             dialogueContent.text += c;
             yield return new WaitForSeconds(0.05f);
+            AudioManager.instance.PlaySFX(AudioManager.AudioType.Dialogue);
         }
         Arrow.gameObject.SetActive(true);
     }

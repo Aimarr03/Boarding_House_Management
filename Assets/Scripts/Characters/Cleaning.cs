@@ -27,7 +27,7 @@ public class Cleaning : InterractableObject, IHasProgress
     public override void HoldInterraction()
     {
         base.HoldInterraction();
-        Debug.Log("IsBusy " + ManagerCharacter.instance.IsBusy());
+        if (ManagerCharacter.instance.isBusy) return;
         if(DoneCleaning)
         {
             return;
@@ -44,6 +44,7 @@ public class Cleaning : InterractableObject, IHasProgress
             HoldingOccured?.Invoke(isHolding);
             DoneCleaning = true;
             Debug.Log("Done Cleaning");
+            AudioManager.instance.SFX_Manager.Stop();
         }
     }
     public void SetDirtyIndicator(bool input)
@@ -54,8 +55,10 @@ public class Cleaning : InterractableObject, IHasProgress
     public void ResetDuration()
     {
         ManagerCharacter.instance.StopAction();
+        AudioManager.instance.SFX_Manager.Stop();
         currentTimeCleaning = 0;
         isHolding = false;
+        progressOccur?.Invoke(currentTimeCleaning / _durationCleaning);
         HoldingOccured?.Invoke(isHolding);
         Debug.Log("Reset");
     }

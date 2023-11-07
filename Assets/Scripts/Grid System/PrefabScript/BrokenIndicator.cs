@@ -28,6 +28,7 @@ public class BrokenIndicator : InterractableObject
         if (ManagerCharacter.instance.IsBusy()) return;
         base.Interracted();
         Debug.Log("Broken Indicator Interracted");
+        AudioManager.instance.PlaySFX(AudioManager.AudioType.Cleaning);
         bool canFix = EconomyManager.instance.CheckMoney(10);
         if (canFix)
         {
