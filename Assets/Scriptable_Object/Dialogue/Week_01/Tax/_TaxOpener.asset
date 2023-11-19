@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
+  m_Name: _TaxOpener
+  m_EditorClassIdentifier: 
+  DialogueName: Tax Opener 01
+  charactersInvolved: []
+  entireConversation:
+  - characterSO: {fileID: 11400000, guid: f86312702380b2d4895971863c5b3909, type: 2}
+    expressionType: 0
+    position: 1
+    lines:
+    - Oi...
+    - Uang Gua!
+    - Gua harap kau punya 1200 uang untuk membayar utang mu ke Gua
+    choice:
+      optionsToChoose: []
+      dialogueTree:
+      - {fileID: 11400000, guid: 0d90a1668a43469459510025f3a164ea, type: 2}
+      - {fileID: 11400000, guid: a31ab5e4ab2d363428a0217a465336cf, type: 2}
+  ConversationDone: 0
+  conversationType: 1
+  Cost: 1200
+  nextConversation: {fileID: 0}

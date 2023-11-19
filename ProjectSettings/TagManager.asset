@@ -8,11 +8,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - InterractedObject
+  - BuildableObject
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Building
+    uniqueID: 3612434261
+    locked: 0
+  - name: Furniture
+    uniqueID: 3680647277
+    locked: 0
+  - name: Player
+    uniqueID: 664073689
+    locked: 0
+  - name: UI
+    uniqueID: 48447189
     locked: 0

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c730ac031f5ef4347886ef5db8f9a778, type: 3}
+  m_Name: Guest Room
+  m_EditorClassIdentifier: 
+  roomName: Guest Room
+  prefab: {fileID: 5421844904909143995, guid: 7879db4b62cb67b49a494bac0ad85c50, type: 3}
+  roomType:
+  - {fileID: 21300000, guid: 9ccb9ff9ad55da3499eb03d96a463408, type: 3}
+  height: 1
+  width: 3
+  costPurchase: 0
+  baseRevenue: 100
+  baseTax: 10
+  Furnitures:
+  - {fileID: 11400000, guid: 4788a8b0114541547afd33308c177e55, type: 2}
+  - {fileID: 11400000, guid: b48b54de8dc5d31418fbe4670c4a55c0, type: 2}
+  - {fileID: 11400000, guid: 95217c0b2b4b739439df63cbcbad2e8a, type: 2}
+  - {fileID: 11400000, guid: d6b31b37a6924ad4e91557b64092337b, type: 2}
+  - {fileID: 11400000, guid: a2c7c065b88d3a64c96f0ab0e635fdfc, type: 2}
+  - {fileID: 11400000, guid: 20be8d7d5bcc1f943b6811079e22f8d0, type: 2}

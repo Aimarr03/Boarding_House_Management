@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
+  m_Name: Sufficient_02
+  m_EditorClassIdentifier: 
+  DialogueName: 
+  charactersInvolved:
+  - {fileID: 11400000, guid: f86312702380b2d4895971863c5b3909, type: 2}
+  - {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+  entireConversation:
+  - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+    expressionType: 1
+    position: 0
+    lines:
+    - Eeee....
+    - Iyaa... aku ada uangnya
+    - Ini nih..
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  - characterSO: {fileID: 11400000, guid: f86312702380b2d4895971863c5b3909, type: 2}
+    expressionType: 1
+    position: 1
+    lines:
+    - Hmm...
+    - Boleh.. Boleh..
+    - Lu melebihi ekspektasi gw
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  - characterSO: {fileID: 11400000, guid: f86312702380b2d4895971863c5b3909, type: 2}
+    expressionType: 0
+    position: 1
+    lines:
+    - Dua minggu lagi
+    - Gw bakal minta 5000..
+    - Ingat itu
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+    expressionType: 0
+    position: 0
+    lines:
+    - Siap Siap
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  ConversationDone: 0
+  conversationType: 2
+  Cost: 2000
+  nextConversation: {fileID: 11400000, guid: 3582dd3462c98094fadda5cd7817302c, type: 2}

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
+  m_Name: No Money Situation
+  m_EditorClassIdentifier: 
+  DialogueName: 
+  charactersInvolved: []
+  entireConversation:
+  - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+    expressionType: 2
+    position: 0
+    lines:
+    - Aku tidak punya uang lagi
+    - Bahkan aku harus ngutang
+    - Sehingga aku harus menjual kos aku untuk hutang baru yang aku buat
+    - 'Jadii.. '
+    - Ya.. Begitu...
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  ConversationDone: 0
+  conversationType: 7
+  Cost: 0
+  nextConversation: {fileID: 0}

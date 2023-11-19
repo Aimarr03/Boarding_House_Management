@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74c40a55b62f6a4b8649988a94ea8aa, type: 3}
+  m_Name: Tutorial_Customer
+  m_EditorClassIdentifier: 
+  DialogueName: 
+  charactersInvolved:
+  - {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+  entireConversation:
+  - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+    expressionType: 1
+    position: 0
+    lines:
+    - Ohh... Ada pelanggan...
+    - Ini adalah cara kita mendapatkan uang
+    - Posisikan Mouse ke pelanggan dan ia akan memberikan indikasi
+    - Tekan mouse dan posisikan mouse ke kamar yang kosong kemudian lepaskan
+    - Pelanggan akan berada di kamar tersebut
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  - characterSO: {fileID: 11400000, guid: 691b806977845074884e1ddeb0e8d8f9, type: 2}
+    expressionType: 0
+    position: 0
+    lines:
+    - Tapi Ingat
+    - Pelanggan kita nge kos di kamar tersebut
+    - Oleh karena iitu kita harus nge rawatnya dengan baik
+    - Atau tidak pelanggan akan pergi
+    - Good Luck
+    choice:
+      optionsToChoose: []
+      dialogueTree: []
+  ConversationDone: 0
+  conversationType: 6
+  Cost: 0
+  nextConversation: {fileID: 0}
