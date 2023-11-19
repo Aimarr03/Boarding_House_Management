@@ -51,6 +51,7 @@ public class ManagerCharacter : MonoBehaviour
         Debug.Log("Stop Action");
         StopAllCoroutines();
         transform.position = defaultPosition.position;
+        AudioManager.instance.SFX_Manager.Stop();
         animator.SetBool("IsCleaning", false);
     }
     //Check if position is not equal to default position, meaning it is busy
